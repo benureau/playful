@@ -1,0 +1,78 @@
+teacher=0.01
+teacher=0.0
+epsC=0.2
+teacher=0.0
+teacher=0.01
+teacher=0.05
+teacher=0.1
+teacher=0.0
+teacher=0.1
+teacher=0.01
+epsC=0.2
+gamma=0.1
+quit
+gamma=0.1
+gamma=0.1
+epsC=.1
+discountS=0.01
+discountS=0.1
+gamma=0.001
+gamma=0.01
+discountS=0.01
+epsC=.2
+epsC=.5
+quit
+gamma=0.05
+gamma=0.01
+gamma=0.001
+epsC=0.05
+epsA=0.05
+dampController= 0.0001
+ls
+store 101 test.ctrl
+gamma
+gamma=0.005
+gamma=0.05
+gamma=0.01
+gamma=0.1
+noise-0.01
+noise=0.1
+gamma=0.1
+gamma=0.01
+gamma=0.1
+gamma=0.03
+noise=.2
+noise=.1
+epsC=0.02
+epsC=0.01
+noise=.1
+rootE=0
+epsC=0.1
+epsA=0.1
+epsC=1
+epsC=.1
+epsC=.1
+epsA=0.1
+gamma= 0.01
+gamma= 0.05
+gamma= 0.001
+gamma= 0.01
+gamma=0.01
+gamma=0.001
+gamma=0.001
+gamma=0.001
+gamma=0.000
+gamma=0.001
+gamma=0.001
+s4delay= 2
+s4delay= 1
+gamma=0.00
+noise=0.05
+gamma=0.00
+gamma=0.001
+gamma=0.01
+gamma=0.00
+gamma=0.001
+quit
+gamma=0.001
+gamma=0.005

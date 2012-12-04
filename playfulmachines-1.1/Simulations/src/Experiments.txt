@@ -1,0 +1,27 @@
+barrel  		3.1 Open loop control of BARREL  
+barrel                  3.2 Closed loop control of BARREL 
+wheeled_split           3.3 Closed loop control of wheeled robots
+expandingthebody_wheeled 3.4 Expanding the body
+barrel		        4.1 Learning controller from self-model 
+barrel                  4.2 Homeostatic control of the BARREL 
+wheeled_split           6.1 Emerging search with mobile robots 
+wheeled_split           6.2 Spontaneous cooperativity in a chain of robots 
+armband_split           6.3 Spontaneous cooperativity in high-dimensional systems. .
+shortcircuit_avggrad    7.1 Oscillatory behavior in 2D 
+barrel		        7.2 Homeokinetic control of BARREL 
+spherical               8.1  Self-exploration and situatedness with SPHERICAL
+barrel	                8.2 Precession mode BARREL 
+dog                     10.1 Swinging legs. The heavily underactuated dog
+humanoid                10.2 Bungee jumping
+humanoid                10.3 Multilayer networks for model and control
+dog                     10.4 DOG surmounting barriers
+dog                     10.5 The HIPPO DOG
+humanoid                10.6 HUMANOID 
+humanoid                10.7 HUMANOID at high bar 
+rhoenrad                10.8 RHOENRAD 
+humanoid                10.9 Fighting 
+snake                   10.10 Snake 
+zoo                     10.11 The world of playful machines 
+guided_spherical_dist   12.1 SPHERICAL robot with direct sensor teaching
+guided_twowheeled_cmt   13.1 TWOWHEELED robot with Cross-Motor Teaching of the two wheels.
+guided_armband_cmt      13.2 ARMBAND robot with Cross-Motor Teaching

@@ -1,0 +1,5 @@
+#!/bin/bash
+SIM=src/`basename $0`
+
+echo "Entering directory $SIM"
+cd $SIM && ./start $@

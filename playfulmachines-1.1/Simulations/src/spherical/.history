@@ -1,0 +1,78 @@
+epsC=.3
+epsC=.1
+epsC=.2
+epsC=.5
+epsC=.1
+epsC=.3
+epsA=.3
+epsC=.1
+epsA=.1
+controlinterval=4
+epsC=.3
+epsA=.3
+epsA=.1
+damping= 0.0001
+damping= 0.0001
+causeaware=0
+causeaware=0.1
+harmony= .1
+epsC=.3
+pseudo=2
+causeaware=0
+causeaware=0.1
+pseudo=3
+pseudo=2
+ls
+store 101 test.ctrl
+pseudo=0
+pseudo=1
+pseudo=2
+pseudo=3
+pseudo=0
+causeaware=/5
+causeaware=.5
+causeaware=.0
+causeaware=.2
+causeaware=1
+show
+load 101 test.ctrl
+pseudo=
+harmony=.2
+harmony=.9
+harmony=
+harmony=0
+causeaware=/5
+causeaware=.5
+causeaware=1
+causeaware=/2
+causeaware=.2
+causeaware=.5
+epsC=1
+epsC=.1
+Logarithmic=1
+load 101 test.ctrl
+causeaware=.5
+causeaware=.2
+causeaware=.2
+causeaware=1
+causeaware=
+causeaware=0
+causeaware=0.5
+pseudo=2
+harmony= .1
+harmony= .
+harmony= .
+harmony= .
+harmony= .
+epsC=1
+realtimefactor=0
+realtimefactor=0
+ls
+help
+show
+creativity= 0.3
+set 2 creativity= 0.3
+set 1 creativity= 0.3
+ls
+set 3 creativity= 0.3
+realtimefactor=0

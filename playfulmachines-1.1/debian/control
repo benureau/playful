@@ -1,0 +1,17 @@
+Source: playfulmachines
+Section: math
+Priority: optional
+Maintainer: Georg Martius <georg.martius@web.de>
+Build-Depends: debhelper (>= 7), quilt,
+ lpzrobots-selforg (>= 0.7.0.6), lpzrobots-oderobots (>= 0.7.0.6)
+Standards-Version: 3.8.4
+Homepage: http://playfulmachines.com
+
+Package: playfulmachines
+Architecture: any
+Depends: ${misc:Depends},
+ lpzrobots-selforg (>= 0.7.0.6), lpzrobots-oderobots (>= 0.7.0.6)
+Recommends: guilogger, matrixviz
+Description: Simulated robot experiments described in the book
+ The Playful Machine by Ralf Der and Georg Martius, Springer
+ 2012

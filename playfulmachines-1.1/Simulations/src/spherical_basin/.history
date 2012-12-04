@@ -1,0 +1,72 @@
+noise=10
+epsC=0.05
+epsC=0.1
+rootE=1
+epsA=.3
+epsC=.3
+discountS=.1
+epsC=0.05
+epsA=0.05
+noise=0.01
+epsC=0.1
+epsA=0.1
+noise=.1
+noise=.05
+epsC=.2
+store 0 round.ctrl
+epsC=0.1
+epsC=0.01
+epsC=0.05
+store 0 round2.ctrl
+load 0 round2.ctrl
+load 0 round2.ctrl
+load 0 round2.ctrl
+realtimefactor= 1
+load 0 round2.ctrl
+load 0 round2.ctrl
+load 0 round2.ctrl
+store 0 roundgreen.ctrl
+show
+noise=.1
+logaE=1
+noise=.05
+epsC=.1
+store 0 roundcwall.ctrl
+load 0 roundgreen.ctrl
+load 0 roundgreen.ctrl
+load 0 roundgreen.ctrl
+load 0 roundgreen.ctrl
+load 0 roundcwall.ctrl
+pendularrange=0
+pendularrange=0.1
+pendularrange=0.01
+pendularrange=0.3
+pendularrange=0.3
+pendularrange=0.1
+pendularrange=0.1
+pendularrange=0.4
+pendularrange=0.4
+pendularrange=0.4
+pendularrange=0.
+pendularrange=0.05
+pendularrange=0.1
+pendularrange=0.1
+epsA=1
+epsC=.1
+epsA=.1
+Logarithmic= 1
+pendularrange=0.
+pendularrange=0.1
+pendularrange=0.1
+epsA=.1
+epsC=.1
+Logarithmic= 1
+epsC=.2
+pendularrange=0.
+Logarithmic= 1
+epsC=0.1
+epsA=0.1
+pendularrange=0.2
+epsC=0.2
+pendularrange=0.2
+Logarithmic= 1
