@@ -94,8 +94,6 @@
 #include <ode_robots/sphererobot3masses.h>
 #include <ode_robots/axisorientationsensor.h>
 
-#include <ode_robots/axisorientationsensor.h>
-
 // fetch all the stuff of lpzrobots into scope
 using namespace lpzrobots;
 
@@ -155,16 +153,19 @@ public:
     // create pointer to controller
     // set some parameters
     // push controller in global list of configurables
+    /*
     controller = new InvertMotorSpace(10);  
     controller->setParam("epsA",0.3); // model learning rate
     controller->setParam("epsC",0.3); // controller learning rate
     controller->setParam("rootE",3);    // model and contoller learn with square rooted error
     global.configs.push_back ( controller );
+    */
 
 //     //  SineController (produces just sine waves)
-//     controller = new SineController();  
-//     controller->setParam("sinerate", 40);  
-//     controller->setParam("phaseshift", 0.0);
+    controller = new SineController();  
+    controller->setParam("sinerate", 40);  
+    controller->setParam("phaseshift", 0.0);
+    global.configs.push_back ( controller );
     
     // create pointer to one2onewiring which uses colored-noise 
     One2OneWiring* wiring = new One2OneWiring ( new ColorUniformNoise() );
