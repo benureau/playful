@@ -1,5 +1,7 @@
-# Compiled Object files
+# Temporary files
 *~
+
+# Compiled Object files
 *.slo
 *.lo
 *.o
@@ -12,3 +14,25 @@
 *.lai
 *.la
 *.a
+
+# Playful specific
+start
+Makefile.depend
+.history
+
+playfulmachines-1.1/Simulations/armband_split
+playfulmachines-1.1/Simulations/barrel
+playfulmachines-1.1/Simulations/dog
+playfulmachines-1.1/Simulations/expandingthebody_wheeled
+playfulmachines-1.1/Simulations/guided_armband_cmt
+playfulmachines-1.1/Simulations/guided_spherical_distal
+playfulmachines-1.1/Simulations/guided_twowheeled_cmt
+playfulmachines-1.1/Simulations/humanoid
+playfulmachines-1.1/Simulations/rhoenrad
+playfulmachines-1.1/Simulations/shortcircuit_avggrad
+playfulmachines-1.1/Simulations/single_wheel_push
+playfulmachines-1.1/Simulations/snake
+playfulmachines-1.1/Simulations/spherical
+playfulmachines-1.1/Simulations/spherical_basin
+playfulmachines-1.1/Simulations/wheeled_split
+playfulmachines-1.1/Simulations/zoo
