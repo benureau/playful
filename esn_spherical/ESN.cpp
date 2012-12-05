@@ -12,6 +12,8 @@
 
 #define TIMESCALE 0.1
 #define CONNECTION_RATIO 0.1
+#define INRATIO 0.2
+#define OUTRATIO 0.2
 
 using namespace std;
 using namespace matrix;
@@ -32,15 +34,41 @@ using namespace matrix;
   void ESN::init(unsigned int inputDim, unsigned  int outputDim, double unit_map, RandGen* randGen)
   {
 	int nbInternalConnection;
+	int nbInputConnectionPN;
+	int nbOutputConnectionPN;
+
+	nbInputs = inputDim;
+	nbOutputs = outputDim;
+
 	nbInternalConnection = nbNeurons*CONNECTION_RATIO;
+	nbInputConnectionPN = nbNeurons*INRATIO;
+	nbOutputConnectionPN = nbNeurons*OUTRATIO;
 
 	inputWeights.set(inputDim,nbNeurons);
 	outputWeights.set(nbNeurons,outputDim);
 	ESNNeurons.set(nbNeurons,1);
 	ESNWeights.set(nbNeurons,nbNeurons);
 
-	inputWeights=inputWeights.map(random_minusone_to_one)*TIMESCALE;
-	outputWeights=outputWeights.map(random_minusone_to_one)*TIMESCALE;
+	//inputWeights=inputWeights.map(random_minusone_to_one)*TIMESCALE;
+	//outputWeights=outputWeights.map(random_minusone_to_one)*TIMESCALE;
+	
+	for(int count1 = 0; count1 < nbInputs; count1++)
+	{
+		for(int count2 = 0; count2 < nbInputConnectionPN; count2++)
+		{
+			int i = rand()%nbNeurons;
+			inputWeights.val(count1,i) = random_minusone_to_one(0)*TIMESCALE;
+		}
+	}
+
+	for(int count1 = 0; count1 < nbInputs; count1++)
+	{
+		for(int count = 0; count < nbOutputConnectionPN; count++)
+		{
+			int i = rand()%nbNeurons;
+			outputWeights.val(i,0) = random_minusone_to_one(0)*TIMESCALE;
+		}
+	}
 
 	for(int count = 0; count < nbInternalConnection; count++)
 	{

@@ -28,7 +28,7 @@ public:
      @param controlmask bitmask to select channels to control (default all)
      @param function controller function to use
    */
-  ESN(int nbNeurons = 20);
+  ESN(int nbNeurons = 30);
 
   /** initialisation of the network with the given number of input and output units
       @param inputDim length of input vector
@@ -68,6 +68,8 @@ public:
 protected:
 
   int nbNeurons;
+  int nbInputs;
+  int nbOutputs;
   matrix::Matrix inputWeights;
   matrix::Matrix outputWeights;
   matrix::Matrix ESNNeurons;
