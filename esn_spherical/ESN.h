@@ -12,7 +12,7 @@
 
 #include <stdio.h>
 #include <selforg/abstractmodel.h>
-#include <selforg/matix.h>
+#include <selforg/matrix.h>
 
 
 /**
@@ -28,7 +28,7 @@ public:
      @param controlmask bitmask to select channels to control (default all)
      @param function controller function to use
    */
-  ESN();
+  ESN(int nbNeurons = 20);
 
   /** initialisation of the network with the given number of input and output units
       @param inputDim length of input vector
@@ -39,7 +39,7 @@ public:
       @param randGen pointer to random generator, if 0 an new one is used
    */
   virtual void init(unsigned int inputDim, unsigned  int outputDim, 
-		    double unit_map.0, RandGen* randGen);
+		    double unit_map = 0.0, RandGen* randGen = 0);
 
   /** passive processing of the input
      (this function is not constant since a recurrent network 
@@ -67,10 +67,12 @@ public:
 
 protected:
 
+  int nbNeurons;
   matrix::Matrix inputWeights;
   matrix::Matrix outputWeights;
   matrix::Matrix ESNNeurons;
   matrix::Matrix ESNWeights; 
+  double eps;
 
   //
 };

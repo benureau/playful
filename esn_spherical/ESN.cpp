@@ -8,6 +8,10 @@
  *****************************************************************************/
 
 #include "ESN.h"
+#include <selforg/controller_misc.h>
+
+#define TIMESCALE 0.1
+#define CONNECTION_RATIO 0.1
 
 using namespace std;
 using namespace matrix;
@@ -15,40 +19,67 @@ using namespace matrix;
   /**
    * ESN class constructor
   */
-  void ESN::ESN()
+  ESN::ESN(int nbNeurons)
+	:AbstractModel("ESN","0.1"), nbNeurons(nbNeurons)
   {
-
+	addParameterDef("eps",&eps,0.01,0,1,"learning rate");  
+	//nothing
+	addInspectableMatrix("OutputWeights",&outputWeights,false,"output weights");
+  	addInspectableMatrix("ESNNeurons",&ESNNeurons,false,"internal state");
+  	addInspectableMatrix("ESNWeights",&ESNWeights,false,"internal weights");
   }
 
-  virtual void ESN::init(unsigned int inputDim, unsigned  int outputDim,double unit_map.0, RandGen* randGen)
+  void ESN::init(unsigned int inputDim, unsigned  int outputDim, double unit_map, RandGen* randGen)
   {
+	int nbInternalConnection;
+	nbInternalConnection = nbNeurons*CONNECTION_RATIO;
 
+	inputWeights.set(inputDim,nbNeurons);
+	outputWeights.set(nbNeurons,outputDim);
+	ESNNeurons.set(nbNeurons,1);
+	ESNWeights.set(nbNeurons,nbNeurons);
+
+	inputWeights=inputWeights.map(random_minusone_to_one)*TIMESCALE;
+	outputWeights=outputWeights.map(random_minusone_to_one)*TIMESCALE;
+
+	for(int count = 0; count < nbInternalConnection; count++)
+	{
+		int i = rand()%nbNeurons;
+		int j = rand()%nbNeurons;
+		ESNWeights.val(i,j) = random_minusone_to_one(0)*TIMESCALE;
+	}
+	 
   }
 
 
-  virtual const Matrix ESN::process (const Matrix& input)
-  {
-
+  const Matrix ESN::process (const Matrix& input)
+  { 
+	ESNNeurons = (inputWeights*input+ESNWeights*ESNNeurons).map(tanh); 
+	return outputWeights* ESNNeurons;
   }
 
   
-  virtual const Matrix ESN::learn (const Matrix& input, const Matrix& nom_output, double learnRateFactor = 1)
+  const Matrix ESN::learn (const Matrix& input, const Matrix& nom_output, double learnRateFactor)
+  {
+	const Matrix& output = process(input);
+	const Matrix& delta = nom_output - output;	
+	outputWeights += (delta * (ESNNeurons^T)) * (learnRateFactor * eps);
+	return output;
+	
+  }
+
+  void ESN::damp(double damping)//Damp is Dumb
   {
 
   }
 
-  virtual void ESN::damp(double damping)
+  unsigned int ESN::getInputDim() const
   {
-
+	return inputWeights.getM();
   }
 
-  virtual unsigned int ESN::getInputDim() const
+  unsigned int ESN::getOutputDim() const
   {
-
-  }
-
-  virtual unsigned int ESN::getOutputDim() const
-  {
-
+	return outputWeights.getN();
   }
 
