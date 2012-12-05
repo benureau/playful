@@ -40,12 +40,12 @@ using namespace matrix;
 	nbInputs = inputDim;
 	nbOutputs = outputDim;
 
-	nbInternalConnection = nbNeurons*CONNECTION_RATIO;
+	nbInternalConnection = nbNeurons*nbNeurons*CONNECTION_RATIO;
 	nbInputConnectionPN = nbNeurons*INRATIO;
 	nbOutputConnectionPN = nbNeurons*OUTRATIO;
 
-	inputWeights.set(inputDim,nbNeurons);
-	outputWeights.set(nbNeurons,outputDim);
+	inputWeights.set(nbNeurons,inputDim);
+	outputWeights.set(outputDim,nbNeurons);
 	ESNNeurons.set(nbNeurons,1);
 	ESNWeights.set(nbNeurons,nbNeurons);
 
@@ -57,7 +57,7 @@ using namespace matrix;
 		for(int count2 = 0; count2 < nbInputConnectionPN; count2++)
 		{
 			int i = rand()%nbNeurons;
-			inputWeights.val(count1,i) = random_minusone_to_one(0)*TIMESCALE;
+			inputWeights.val(i,count1) = random_minusone_to_one(0)*TIMESCALE;
 		}
 	}
 
@@ -66,7 +66,7 @@ using namespace matrix;
 		for(int count = 0; count < nbOutputConnectionPN; count++)
 		{
 			int i = rand()%nbNeurons;
-			outputWeights.val(i,0) = random_minusone_to_one(0)*TIMESCALE;
+			outputWeights.val(count1,i) = random_minusone_to_one(0)*TIMESCALE;
 		}
 	}
 

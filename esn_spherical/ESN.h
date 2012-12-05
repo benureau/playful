@@ -63,6 +63,11 @@ public:
   /// returns the number of output neurons
   virtual unsigned int getOutputDim() const;
 
+  virtual bool store(FILE*) const{return false;}
+
+  virtual bool restore(FILE*){return false;}
+
+
   
 
 protected:
