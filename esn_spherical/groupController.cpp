@@ -37,7 +37,7 @@ GroupController::GroupController(AbstractController* controller)
   : AbstractController("GroupController", "$Id$"), 
   controller(controller)
 {
-
+  addConfigurable(controller);
 /*
   addParameterDef("period", &period,50);
   addParameterDef("phaseshift", &phaseShift, 1);

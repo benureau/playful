@@ -79,6 +79,7 @@ protected:
   matrix::Matrix outputWeights;
   matrix::Matrix ESNNeurons;
   matrix::Matrix ESNWeights; 
+  double error;
   double eps;
 
   //

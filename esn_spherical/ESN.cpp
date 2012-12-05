@@ -24,11 +24,14 @@ using namespace matrix;
   ESN::ESN(int nbNeurons)
 	:AbstractModel("ESN","0.1"), nbNeurons(nbNeurons)
   {
-	addParameterDef("eps",&eps,0.01,0,1,"learning rate");  
+        eps=0.01;
+	addParameter("eps",&eps,0,1,"learning rate");  
 	//nothing
 	addInspectableMatrix("OutputWeights",&outputWeights,false,"output weights");
   	addInspectableMatrix("ESNNeurons",&ESNNeurons,false,"internal state");
   	addInspectableMatrix("ESNWeights",&ESNWeights,false,"internal weights");
+	addInspectableValue("error",&error,"Learning error");
+        error = 0;
   }
 
   void ESN::init(unsigned int inputDim, unsigned  int outputDim, double unit_map, RandGen* randGen)
@@ -91,6 +94,7 @@ using namespace matrix;
   {
 	const Matrix& output = process(input);
 	const Matrix& delta = nom_output - output;	
+	error = delta.norm_sqr();
 	outputWeights += (delta * (ESNNeurons^T)) * (learnRateFactor * eps);
 	return output;
 	
