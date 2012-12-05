@@ -30,6 +30,8 @@
 #include "ESN.h"
 
 using namespace std;
+using namespace matrix;
+
 
 GroupController::GroupController(AbstractController* controller)
   : AbstractController("GroupController", "$Id$"), 
@@ -53,11 +55,20 @@ GroupController::GroupController(AbstractController* controller)
 */
 void GroupController::init(int sensornumber, int motornumber, RandGen* randGen){
   controller->init(sensornumber, motornumber, randGen);
+  esn = new ESN(30);
+  esn->init(sensornumber, motornumber);
+  addInspectable(esn);
+  addConfigurable(esn);
 };
   
 void GroupController::step(const sensor* sensors, int sensornumber, 
 			  motor* motors, int motornumber) {
   controller->step(sensors, sensornumber, motors, motornumber);
+  //ESN controller from here	
+  Matrix s(sensornumber,1,sensors);
+  Matrix m(motornumber,1,motors);
+  esn->learn(s, m);
+  
 };
 
 void GroupController::stepNoLearning(const sensor* sensors, int number_sensors, 

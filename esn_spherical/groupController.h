@@ -27,6 +27,8 @@
 
 #include <stdio.h>
 #include <selforg/abstractcontroller.h>
+#include <selforg/matrix.h>
+#include "ESN.h"
 
 /**
  * class for robot control with sine, sawtooth and impuls  
@@ -90,6 +92,7 @@ public:
 protected:
 
   AbstractController* controller;
+  ESN* esn;
 };
 
 #endif 
