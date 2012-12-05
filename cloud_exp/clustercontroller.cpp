@@ -21,16 +21,24 @@
 using namespace matrix;
 using namespace std;
 
-ClusterController::ClusterController(const SoxConf& conf)
+ClusterController::ClusterController(Cloud cloud_, const SoxConf& conf)
   : Sox(conf)
 {
+  cloud = cloud_;
 }
 
-
-ClusterController::ClusterController(double init_feedback_strength, bool useExtendedModel, bool useTeaching )
+ClusterController::ClusterController(Cloud cloud_, double init_feedback_strength, bool useExtendedModel, bool useTeaching )
   : Sox(init_feedback_strength, useExtendedModel, useTeaching)
 {
+  cloud = cloud_;
 }
 
 ClusterController::~ClusterController(){
+}
+
+void ClusterController::stepNoLearning(const sensor* x_, int number_sensors,
+                                       motor* y_, int number_motors){
+  cloud.addControllerState(this->getA(), this->getC(), this->geth());
+  cout << "Added matrix" << endl;
+  Sox::stepNoLearning(x_, number_sensors, y_, number_motors);
 }
