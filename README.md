@@ -7,4 +7,4 @@ Supervisors:
 Ralf Der, Georg Martius
 
 Members:
-Fabien Benureau, Chrisantha Fernando, Quan Wang, Jimmy Baraglia
+Fabien Benureau, Chrisantha Fernando, Quan Wang, Jimmy Baraglia, Amr Almaddah
