@@ -31,6 +31,7 @@
 // controller
 #include <selforg/sox.h>
 #include "ESN.h"
+#include "groupController.h"
 
 #include <selforg/noisegenerator.h> // include noisegenerator (used for adding noise to sensorvalues)
 #include <selforg/one2onewiring.h>  // simple wiring
@@ -88,12 +89,16 @@ public:
     ((OdeRobot*)sphere1)->place ( Pos( 0 , 0 , 0.1 ));
     global.configs.push_back ( sphere1 );
     
-    controller = new Sox(.8,true);
-    controller->setParam("epsA",0.3); // model learning rate
-    controller->setParam("epsC",1); // controller learning rate
-    controller->setParam("causeaware",0.4); 
-    controller->setParam("pseudo",2); 
+    Sox* sox = new Sox(.8,true);
+    sox->setParam("epsA",0.3); // model learning rate
+    sox->setParam("epsC",1); // controller learning rate
+    sox->setParam("causeaware",0.4); 
+    sox->setParam("pseudo",2); 
+
+    controller = new GroupController(sox);
+
     global.configs.push_back ( controller );
+
 
     One2OneWiring* wiring = new One2OneWiring ( new ColorUniformNoise() );
     OdeAgent* agent = new OdeAgent ( global );

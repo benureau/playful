@@ -21,12 +21,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  *                                                                         *
  ***************************************************************************/
-#ifndef __SINECONTROLLER_H
-#define __SINECONTROLLER_H
+#ifndef __GROUPCONTROLLER_H
+#define __GROUPCONTROLLER_H
 
 
 #include <stdio.h>
-#include "abstractcontroller.h"
+#include <selforg/abstractcontroller.h>
 
 /**
  * class for robot control with sine, sawtooth and impuls  
@@ -34,15 +34,14 @@
  * period is the length of the period in steps and 
  * phaseshift is the phase difference between channels given in Pi/2
  */
-class SineController : public AbstractController {
+class GroupController : public AbstractController {
 public:
-  enum function {Sine, SawTooth, Impulse};
 
   /**     
      @param controlmask bitmask to select channels to control (default all)
      @param function controller function to use
    */
-  SineController(unsigned long int controlmask = (~0), function func = Sine );
+  GroupController(AbstractController* controller);
 
   /** initialisation of the controller with the given sensor/ motornumber 
       Must be called before use.
@@ -51,12 +50,12 @@ public:
   
   /** @return Number of sensors the controller was initialised 
       with or 0 if not initialised */
-  virtual int getSensorNumber() const {return number_sensors;}
+  virtual int getSensorNumber() const {return controller->getSensorNumber();}
 
 
   /** @return Number of motors the controller was initialised 
       with or 0 if not initialised */
-  virtual int getMotorNumber() const {return number_motors;}
+  virtual int getMotorNumber() const {return controller->getMotorNumber();}
 
   /** performs one step ( the same as StepNoLearning).
       Calculates motor commands from sensor inputs.
@@ -87,27 +86,10 @@ public:
     return true;
   }
 
-  /// sine 
-  static double sine(double x, double _unused);
-  /// saw tooth shape oscillator
-  static double sawtooth(double x, double _unused);
-  /// impuls shaped oscillator (+-1 for impulsWidth part of the time)
-  static double impuls(double x, double impulsWidth);
 
 protected:
 
-  std::string name;
-  int number_sensors;
-  int number_motors;
-  unsigned long int controlmask; // bitmask to select channels. (the others are set to 0)
-
-  paramval period;
-  paramval phaseShift;
-  paramval impulsWidth;
-  double phase; // phase of oscillator
-  paramval amplitude;
-
-  double (*osci) (double x, double param); // oscillator function
+  AbstractController* controller;
 };
 
 #endif 
