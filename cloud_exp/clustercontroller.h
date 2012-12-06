@@ -17,6 +17,7 @@ public:
 
   virtual ~ClusterController();
 
+  virtual void init(int sensornumber, int motornumber, RandGen* randGen = 0);
   void stepNoLearning(const sensor* x_, int number_sensors,
                       motor* y_, int number_motors);
 private:

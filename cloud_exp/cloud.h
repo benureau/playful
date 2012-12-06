@@ -2,6 +2,8 @@
 #define __CLOUD_H
 
 #include <vector>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 #include <selforg/sox.h>
 #include <selforg/matrix.h>
@@ -10,19 +12,21 @@
 /**
  * A struct for a controller state
  */
-typedef struct MatrixSet {
+class MatrixSet {
+
+public :
   matrix::Matrix A;
   matrix::Matrix C;
   matrix::Matrix h;
   
-  MatrixSet(matrix::Matrix A_, matrix::Matrix C_, matrix::Matrix h_) 
+  MatrixSet(matrix::Matrix A_, matrix::Matrix C_, matrix::Matrix h_)
   {
     A = A_;
     C = C_;
     h = h_;
   }
   
-} MatrixSet;
+};
 
 /**
  * This class clusterise the matrices of the Sox controller
@@ -42,12 +46,15 @@ public:
   int number_sensors;
   int cluster_count;
   
-  void addControllerState(matrix::Matrix A, matrix::Matrix C, matrix::Matrix h); 
-  void clusterise();
+  void addControllerState(matrix::Matrix A, matrix::Matrix C, matrix::Matrix h);
+  void clusterize();
 
 private:
   std::vector<MatrixSet> statesets;
-  
+//  std::vector<double> features; // Raw feature array. 
+
+  cv::Mat centers;
+  cv::Mat labels;
 };
 
 #endif

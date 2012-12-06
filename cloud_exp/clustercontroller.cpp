@@ -33,12 +33,23 @@ ClusterController::ClusterController(Cloud cloud_, double init_feedback_strength
   cloud = cloud_;
 }
 
+void ClusterController::init(int sensornumber, int motornumber, RandGen* randGen) {
+  cloud.configure(motornumber, sensornumber, 20);
+  Sox::init(sensornumber, motornumber, randGen);
+}
+
 ClusterController::~ClusterController(){
 }
 
 void ClusterController::stepNoLearning(const sensor* x_, int number_sensors,
                                        motor* y_, int number_motors){
-  cloud.addControllerState(this->getA(), this->getC(), this->geth());
-  cout << "Added matrix" << endl;
+  Matrix A = this->getA();
+  Matrix C = this->getC();
+  Matrix h = this->geth();
+  
+  cloud.addControllerState(A, C, h);
+  cloud.clusterize();
   Sox::stepNoLearning(x_, number_sensors, y_, number_motors);
+  
+                                         
 }
