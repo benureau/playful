@@ -52,7 +52,7 @@ public:
   Sphererobot3Masses* sphere1;
 
   ThisSim(){
-    setTitle("The ESN Playful Machine");
+    setTitle("The Playful Machine (Der/Martius)");
     setCaption("Simulator by Martius et al");
   }
 

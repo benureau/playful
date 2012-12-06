@@ -78,14 +78,12 @@ public:
   /********* STORABLE INTERFACE ******/
   /// @see Storable
   virtual bool store(FILE* f) const {
-    esn->store(f);
     Configurable::print(f,"");
     return true;
   }
 
   /// @see Storable
   virtual bool restore(FILE* f) {
-    esn->restore(f);
     Configurable::parse(f);
     return true;
   }
@@ -96,12 +94,7 @@ protected:
   AbstractController* controller;
   ESN* esn;
   int nbContextSensors;
-
   int esnCtrl;
-  int contextCtrl;
-  int blueAxis;
-  int redAxis;
-  int greenAxis;
 };
 
 #endif

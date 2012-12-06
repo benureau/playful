@@ -39,11 +39,6 @@ GroupController::GroupController(AbstractController* controller, int nbContextSe
 {
   addConfigurable(controller);
   addParameterDef("esnCtrl", &esnCtrl,0,0,1,"0: Normal control, 1: ESN control");
-  
-  addParameterDef("contextCtrl", &contextCtrl,0,0,1,"0: no control, 1: context control");
-  addParameterDef("blueAxis", &blueAxis,0,0,1,"Blue axis value");
-  addParameterDef("redAxis", &redAxis,0,0,1,"Red axis value");
-  addParameterDef("greenAxis", &greenAxis,0,0,1,"Green axis value");
 };
 
 /** initialisation of the controller with the given sensor/ motornumber
@@ -52,7 +47,7 @@ GroupController::GroupController(AbstractController* controller, int nbContextSe
 void GroupController::init(int sensornumber, int motornumber, RandGen* randGen){
   // the controller does not get the context sensors
   controller->init(sensornumber-nbContextSensors, motornumber, randGen);
-  esn = new ESN(30);
+  esn = new ESN(150);
   esn->init(sensornumber, motornumber);
   addInspectable(esn);
   addConfigurable(esn);
@@ -62,22 +57,6 @@ void GroupController::step(const sensor* sensors, int sensornumber,
 			  motor* motors, int motornumber) {
 
   Matrix s(sensornumber,1,sensors);
-  if(contextCtrl)
-  {
-    if(blueAxis)
-    {
-      s.val(2,0) = 0;
-    }
-    if(redAxis)
-    {
-      s.val(0,0) = 0;
-    }
-    if(greenAxis)
-    {
-      s.val(1,0) = 0;
-    }
-  }
-
   if(esnCtrl){ // let ESN control robot
     const Matrix& m = esn->process(s);
     m.convertToBuffer(motors, motornumber);
