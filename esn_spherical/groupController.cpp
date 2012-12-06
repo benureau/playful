@@ -38,9 +38,9 @@ GroupController::GroupController(AbstractController* controller)
   controller(controller)
 {
   addConfigurable(controller);
-/*
-  addParameterDef("period", &period,50);
-  addParameterDef("phaseshift", &phaseShift, 1);
+
+  addParameterDef("ESNCtrl", &ESNCtrl,false);
+/*  addParameterDef("phaseshift", &phaseShift, 1);
   
   addParameterDef("amplitude", &amplitude, 1);
 
@@ -63,12 +63,23 @@ void GroupController::init(int sensornumber, int motornumber, RandGen* randGen){
   
 void GroupController::step(const sensor* sensors, int sensornumber, 
 			  motor* motors, int motornumber) {
-  controller->step(sensors, sensornumber, motors, motornumber);
-  //ESN controller from here	
-  Matrix s(sensornumber,1,sensors);
-  Matrix m(motornumber,1,motors);
-  esn->learn(s, m);
-  
+
+  if(!ESNCtrl)
+  {
+     controller->step(sensors, sensornumber, motors, motornumber);
+
+     Matrix s(sensornumber,1,sensors);
+     Matrix m(motornumber,1,motors);
+     esn->learn(s, m);
+  }
+  else
+  {
+     Matrix s(sensornumber,1,sensors);
+     Matrix m = esn->process(s);
+     m.convertToBuffer(motors, motornumber);
+  }
+
+
 };
 
 void GroupController::stepNoLearning(const sensor* sensors, int number_sensors, 

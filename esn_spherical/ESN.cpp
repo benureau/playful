@@ -115,3 +115,25 @@ using namespace matrix;
 	return outputWeights.getN();
   }
 
+  bool ESN::store(FILE* f) const{
+  // save matrix values
+
+    inputWeights.store(f);
+    outputWeights.store(f);
+    outputWeights.store(f);
+    ESNWeights.store(f);
+    Configurable::print(f,0);
+    return true;
+  }
+
+  /* loads the ESN values from a given file. */
+  bool ESN::restore(FILE* f){
+    // save matrix values
+    inputWeights.restore(f);
+    outputWeights.restore(f);
+    outputWeights.restore(f);
+    ESNWeights.restore(f);
+    Configurable::parse(f);
+    return true;
+  }
+
