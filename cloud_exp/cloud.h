@@ -5,7 +5,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-#include <selforg/sox.h>
+#include <selforg/inspectable.h>
 #include <selforg/matrix.h>
 
 
@@ -31,7 +31,7 @@ public :
 /**
  * This class clusterise the matrices of the Sox controller
  */
-class Cloud{
+class Cloud : public Inspectable {
 
 public:
   // number_motors and numbers_sensors are the one of the Sos/Sox controller
@@ -40,21 +40,31 @@ public:
 
   virtual ~Cloud();
 
-  void configure(int number_motors, int number_sensors, int cluster_count);
+  void configure(int number_motors, int number_sensors, int cluster_count, int frequency);
   
   int number_motors;
   int number_sensors;
   int cluster_count;
-  
+  int frequency;
+  int row_length;
+
+    
   void addControllerState(matrix::Matrix A, matrix::Matrix C, matrix::Matrix h);
   void clusterize();
 
+  MatrixSet* matrixset4center(int center_index) const;
+  
 private:
+  MatrixSet* feature2matrixset(const cv::Mat& features) const;
   std::vector<MatrixSet> statesets;
 //  std::vector<double> features; // Raw feature array. 
 
   cv::Mat centers;
   cv::Mat labels;
+
+  matrix::Matrix m;
+  
+  int framecount;
 };
 
 #endif

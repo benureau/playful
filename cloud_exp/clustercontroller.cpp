@@ -21,35 +21,48 @@
 using namespace matrix;
 using namespace std;
 
-ClusterController::ClusterController(Cloud cloud_, const SoxConf& conf)
+ClusterController::ClusterController(const SoxConf& conf)
   : Sox(conf)
 {
-  cloud = cloud_;
+
 }
 
-ClusterController::ClusterController(Cloud cloud_, double init_feedback_strength, bool useExtendedModel, bool useTeaching )
+ClusterController::ClusterController(double init_feedback_strength, bool useExtendedModel, bool useTeaching )
   : Sox(init_feedback_strength, useExtendedModel, useTeaching)
 {
-  cloud = cloud_;
+   addParameterDef("control", &control, 0, 0, 1,
+                   "enable cluster control");
+   addParameterDef("center", &center, 0, 0, 20,
+                   "center number for control");
+
+   addInspectable(&cloud);
 }
 
 void ClusterController::init(int sensornumber, int motornumber, RandGen* randGen) {
-  cloud.configure(motornumber, sensornumber, 20);
+  cloud.configure(motornumber, sensornumber, 20, 25);
   Sox::init(sensornumber, motornumber, randGen);
 }
 
 ClusterController::~ClusterController(){
 }
 
-void ClusterController::stepNoLearning(const sensor* x_, int number_sensors,
+void ClusterController::step(const sensor* x_, int number_sensors,
                                        motor* y_, int number_motors){
-  Matrix A = this->getA();
-  Matrix C = this->getC();
-  Matrix h = this->geth();
-  
-  cloud.addControllerState(A, C, h);
-  cloud.clusterize();
-  Sox::stepNoLearning(x_, number_sensors, y_, number_motors);
+  if (control == 0) {
+    Matrix A = this->getA();
+    Matrix C = this->getC();
+    Matrix h = this->geth();
+
+    cloud.addControllerState(A, C, h);    
+    Sox::step(x_, number_sensors, y_, number_motors);
+  } else {
+    MatrixSet* ms = cloud.matrixset4center(center);
+    setC(ms->C);
+    seth(ms->h);
+    
+    Sox::stepNoLearning(x_, number_sensors, y_, number_motors);
+  }
+
   
                                          
 }

@@ -12,16 +12,18 @@ class ClusterController : public Sox {
 
 public:
   /// constructor
-  ClusterController(Cloud cloud, const SoxConf& conf = getDefaultConf());
-  ClusterController(Cloud cloud, double init_feedback_strength, bool useExtendedModel=true, bool useTeaching=false);
+  ClusterController(const SoxConf& conf = getDefaultConf());
+  ClusterController(double init_feedback_strength, bool useExtendedModel=true, bool useTeaching=false);
 
   virtual ~ClusterController();
 
   virtual void init(int sensornumber, int motornumber, RandGen* randGen = 0);
-  void stepNoLearning(const sensor* x_, int number_sensors,
+  void step(const sensor* x_, int number_sensors,
                       motor* y_, int number_motors);
 private:
   Cloud cloud;
+  int control;
+  int center;
 };
 
 #endif

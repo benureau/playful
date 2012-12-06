@@ -48,7 +48,6 @@ class ThisSim : public Simulation {
 public:
   AbstractController* controller;
   Sphererobot3Masses* sphere1;
-  Cloud               cloud;
   
   ThisSim(){
     setTitle("The Playful Machine (Der/Martius)");
@@ -90,8 +89,8 @@ public:
     global.configs.push_back ( sphere1 );
     
     //controller = new Sox(.8,true);
-    controller = new ClusterController(cloud, .8, true);
-    cloud.configure(((ClusterController*)controller)->getMotorNumber(), ((ClusterController*)controller)->getSensorNumber(), 20);
+    controller = new ClusterController(.8, true);
+   
     
     controller->setParam("epsA",0.3); // model learning rate
     controller->setParam("epsC",1); // controller learning rate
