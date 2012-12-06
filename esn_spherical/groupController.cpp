@@ -61,13 +61,21 @@ void GroupController::init(int sensornumber, int motornumber, RandGen* randGen){
 void GroupController::step(const sensor* sensors, int sensornumber,
 			  motor* motors, int motornumber) {
 
-  if(conextCtrl)
+  Matrix s(sensornumber,1,sensors);
+  if(contextCtrl)
   {
-    
-  }
-  else
-  {
-    Matrix s(sensornumber,1,sensors);
+    if(blueAxis)
+    {
+      s.val(2,0) = 0;
+    }
+    if(redAxis)
+    {
+      s.val(0,0) = 0;
+    }
+    if(greenAxis)
+    {
+      s.val(1,0) = 0;
+    }
   }
 
   if(esnCtrl){ // let ESN control robot

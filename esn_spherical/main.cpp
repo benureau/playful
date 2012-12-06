@@ -39,6 +39,7 @@
 // robots
 #include <ode_robots/sphererobot3masses.h>
 #include <ode_robots/axisorientationsensor.h>
+#include <ode_robots/speedsensor.h>
 
 // fetch all the stuff of lpzrobots into scope
 using namespace lpzrobots;
@@ -49,53 +50,56 @@ class ThisSim : public Simulation {
 public:
   AbstractController* controller;
   Sphererobot3Masses* sphere1;
-  
+
   ThisSim(){
-    setTitle("The Playful Machine (Der/Martius)");
+    setTitle("The ESN Playful Machine");
     setCaption("Simulator by Martius et al");
-  }  
+  }
 
   // starting function (executed once at the beginning of the simulation loop)
-  void start(const OdeHandle& odeHandle, const OsgHandle& osgHandle, GlobalData& global) 
+  void start(const OdeHandle& odeHandle, const OsgHandle& osgHandle, GlobalData& global)
   {
     setCameraHomePos(Pos(5.2728, 7.2112, 3.31768), Pos(140.539, -13.1456, 0));
     setCameraMode(Follow);
     global.odeConfig.setParam("noise",0.1);
     global.odeConfig.setParam("controlinterval",4);
     global.odeConfig.setParam("realtimefactor",4);
-    
+
     //  global.odeConfig.setParam("gravity", 0); // no gravity
 
     for(int i=0; i<0; i++){
       PassiveSphere* s = new PassiveSphere(odeHandle, osgHandle.changeColor(Color(0.0,1.0,0.0)), 0.5);
-      s->setPosition(osg::Vec3(5,0,i*3)); 
-      global.obstacles.push_back(s);    
+      s->setPosition(osg::Vec3(5,0,i*3));
+      global.obstacles.push_back(s);
     }
 
-    
+
     // Spherical Robot with axis orientation sensors:
-    Sphererobot3MassesConf conf = Sphererobot3Masses::getDefaultConf();  
+    Sphererobot3MassesConf conf = Sphererobot3Masses::getDefaultConf();
     conf.addSensor(new AxisOrientationSensor(AxisOrientationSensor::ZProjection));
+    // add context sensors (rotation speed around the internal axes,
+    //  with 5 as maximum speed)
+    conf.addSensor(new SpeedSensor(5, SpeedSensor::RotationalRel));
+
     // regular behaviour
     conf.motorsensor=false;
     conf.diameter=1.0;
     conf.pendularrange= 0.25;
-    conf.motorpowerfactor = 150;     
-    
+    conf.motorpowerfactor = 150;
+
 //     conf.diameter=1.0;
 //     conf.pendularrange= 0.35;
-    sphere1 = new Sphererobot3Masses ( odeHandle, osgHandle.changeColor(Color(1.0,0.0,0)), 
-				       conf, "Sphere1", 0.2);     
+    sphere1 = new Sphererobot3Masses ( odeHandle, osgHandle.changeColor(Color(1.0,0.0,0)),
+				       conf, "Sphere1", 0.2);
     ((OdeRobot*)sphere1)->place ( Pos( 0 , 0 , 0.1 ));
     global.configs.push_back ( sphere1 );
-    
+
     Sox* sox = new Sox(.8,true);
     sox->setParam("epsA",0.3); // model learning rate
     sox->setParam("epsC",1); // controller learning rate
-    sox->setParam("causeaware",0.4); 
-    sox->setParam("pseudo",2); 
-
-    controller = new GroupController(sox);
+    sox->setParam("causeaware",0.4);
+    sox->setParam("pseudo",2);
+    controller = new GroupController(sox, 3); // 3 context sensors
 
     global.configs.push_back ( controller );
 
@@ -103,7 +107,7 @@ public:
     One2OneWiring* wiring = new One2OneWiring ( new ColorUniformNoise() );
     OdeAgent* agent = new OdeAgent ( global );
     agent->init ( controller , sphere1 , wiring );
-    if(track) agent->setTrackOptions(TrackRobot(true, true, true, false, "zaxis", 20)); 
+    if(track) agent->setTrackOptions(TrackRobot(true, true, true, false, "zaxis", 20));
     global.agents.push_back ( agent );
 
   }
@@ -117,10 +121,10 @@ public:
 };
 
 int main (int argc, char **argv)
-{ 
+{
   track = (Simulation::contains(argv,argc,"-track")>0);
   ThisSim sim;
   return sim.run(argc, argv) ? 0 : 1;
 }
- 
- 
+
+
