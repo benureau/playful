@@ -22,8 +22,12 @@ public:
                       motor* y_, int number_motors);
 private:
   Cloud cloud;
+
+  // Simulation parameters
   int control;
   int center;
+  int clusteringrate;
+  
 };
 
 #endif

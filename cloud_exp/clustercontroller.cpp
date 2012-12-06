@@ -31,9 +31,13 @@ ClusterController::ClusterController(double init_feedback_strength, bool useExte
   : Sox(init_feedback_strength, useExtendedModel, useTeaching)
 {
    addParameterDef("control", &control, 0, 0, 1,
-                   "enable cluster control");
-   addParameterDef("center", &center, 0, 0, 20,
-                   "center number for control");
+                   "enable cluster control.");
+   addParameterDef("center", &center, 0, 0, 20, // TODO look if bounds can be dynamic
+                   "center number for control.");
+   addParameterDef("clusteringrate", &(cloud.framerate), 25, 0, 100,
+                   "number of steps between two clustering routines.");
+   addParameterDef("clustercount", &(cloud.cluster_count), 10, 0, 100,
+                   "number of clusters to compute.");
 
    addInspectable(&cloud);
 }
@@ -47,18 +51,17 @@ ClusterController::~ClusterController(){
 }
 
 void ClusterController::step(const sensor* x_, int number_sensors,
-                                       motor* y_, int number_motors){
+                                    motor* y_, int number_motors){
+  
   if (control == 0) {
-    Matrix A = this->getA();
-    Matrix C = this->getC();
-    Matrix h = this->geth();
-
-    cloud.addControllerState(A, C, h);    
+    cloud.addControllerState(getA(), getC(), geth());
     Sox::step(x_, number_sensors, y_, number_motors);
+
   } else {
-    MatrixSet* ms = cloud.matrixset4center(center);
-    setC(ms->C);
-    seth(ms->h);
+    MatrixSet ms;
+    cloud. matrixSetFromCenterIndex(center, ms);
+    setC(ms.C);
+    seth(ms.h);
     
     Sox::stepNoLearning(x_, number_sensors, y_, number_motors);
   }

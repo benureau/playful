@@ -8,7 +8,6 @@
 #include <selforg/inspectable.h>
 #include <selforg/matrix.h>
 
-
 /**
  * A struct for a controller state
  */
@@ -18,6 +17,10 @@ public :
   matrix::Matrix A;
   matrix::Matrix C;
   matrix::Matrix h;
+
+  MatrixSet()
+  {
+  }
   
   MatrixSet(matrix::Matrix A_, matrix::Matrix C_, matrix::Matrix h_)
   {
@@ -45,26 +48,32 @@ public:
   int number_motors;
   int number_sensors;
   int cluster_count;
-  int frequency;
-  int row_length;
+  int framerate;
 
-    
   void addControllerState(matrix::Matrix A, matrix::Matrix C, matrix::Matrix h);
   void clusterize();
 
-  MatrixSet* matrixset4center(int center_index) const;
+  void matrixSetFromCenterIndex(int center_index, MatrixSet& ms) const;
   
 private:
-  MatrixSet* feature2matrixset(const cv::Mat& features) const;
+  // Internal data store
+  unsigned int row_length;
   std::vector<MatrixSet> statesets;
-//  std::vector<double> features; // Raw feature array. 
 
+  // Misc
+  int framecount;
+  matrix::Matrix m;
+
+  // OpenCV clustering data structures
+  cv::Mat points;
   cv::Mat centers;
   cv::Mat labels;
 
-  matrix::Matrix m;
+  // Conversion functions
+  void matrixSet2featureVector(const MatrixSet& ms, cv::Mat& features) const;
+  void featureVector2matrixSet(const cv::Mat& features, MatrixSet& ms) const;
   
-  int framecount;
+  
 };
 
 #endif
