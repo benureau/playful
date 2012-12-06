@@ -31,31 +31,31 @@
 #include "ESN.h"
 
 /**
- * class for robot control with sine, sawtooth and impuls  
- * 
- * period is the length of the period in steps and 
+ * class for robot control with sine, sawtooth and impuls
+ *
+ * period is the length of the period in steps and
  * phaseshift is the phase difference between channels given in Pi/2
  */
 class GroupController : public AbstractController {
 public:
 
-  /**     
+  /**
      @param controlmask bitmask to select channels to control (default all)
      @param function controller function to use
    */
-  GroupController(AbstractController* controller);
+  GroupController(AbstractController* controller, int nbContextSensors = 0);
 
-  /** initialisation of the controller with the given sensor/ motornumber 
+  /** initialisation of the controller with the given sensor/ motornumber
       Must be called before use.
   */
   virtual void init(int sensornumber, int motornumber, RandGen* randGen = 0);
-  
-  /** @return Number of sensors the controller was initialised 
+
+  /** @return Number of sensors the controller was initialised
       with or 0 if not initialised */
   virtual int getSensorNumber() const {return controller->getSensorNumber();}
 
 
-  /** @return Number of motors the controller was initialised 
+  /** @return Number of motors the controller was initialised
       with or 0 if not initialised */
   virtual int getMotorNumber() const {return controller->getMotorNumber();}
 
@@ -66,37 +66,41 @@ public:
       @param motors motors outputs. MUST have enough space for motor values!
       @param motornumber length of the provided motor array
   */
-  virtual void step(const sensor* sensors, int sensornumber, 
+  virtual void step(const sensor* sensors, int sensornumber,
 		    motor* motors, int motornumber);
-  /** performs one step. 
+  /** performs one step.
       @see step
   */
-  virtual void stepNoLearning(const sensor* , int number_sensors, 
+  virtual void stepNoLearning(const sensor* , int number_sensors,
 			      motor* , int number_motors);
-  
+
 
   /********* STORABLE INTERFACE ******/
   /// @see Storable
-  virtual bool store(FILE* f) const { 
-    esn->store(f);
+  virtual bool store(FILE* f) const {
     Configurable::print(f,"");
     return true;
   }
 
   /// @see Storable
-  virtual bool restore(FILE* f) { 
-    esn->restore(f);
-    Configurable::parse(f);    
+  virtual bool restore(FILE* f) {
+    Configurable::parse(f);
     return true;
   }
 
 
 protected:
-  
-  bool ESNCtrl;
+
   AbstractController* controller;
   ESN* esn;
+  int nbContextSensors;
+
+  int esnCtrl;
+  int contextCtrl;
+  int blueAxis;
+  int redAxis;
+  int greenAxis;
 };
 
-#endif 
+#endif
 

@@ -33,60 +33,60 @@ using namespace std;
 using namespace matrix;
 
 
-GroupController::GroupController(AbstractController* controller)
-  : AbstractController("GroupController", "$Id$"), 
-  controller(controller)
+GroupController::GroupController(AbstractController* controller, int nbContextSensors)
+  : AbstractController("GroupController", "$Id$"),
+    controller(controller), nbContextSensors(nbContextSensors)
 {
   addConfigurable(controller);
-
-  addParameterDef("ESNCtrl", &ESNCtrl,false);
-/*  addParameterDef("phaseshift", &phaseShift, 1);
+  addParameterDef("esnCtrl", &esnCtrl,0,0,1,"0: Normal control, 1: ESN control");
   
-  addParameterDef("amplitude", &amplitude, 1);
-
-  number_sensors=0;
-  number_motors=0;  
-*/
-
+  addParameterDef("contextCtrl", &contextCtrl,0,0,1,"0: no control, 1: context control");
+  addParameterDef("blueAxis", &blueAxis,0,0,1,"Blue axis value");
+  addParameterDef("redAxis", &redAxis,0,0,1,"Red axis value");
+  addParameterDef("greenAxis", &greenAxis,0,0,1,"Green axis value");
 };
 
-/** initialisation of the controller with the given sensor/ motornumber 
+/** initialisation of the controller with the given sensor/ motornumber
     Must be called before use.
 */
 void GroupController::init(int sensornumber, int motornumber, RandGen* randGen){
-  controller->init(sensornumber, motornumber, randGen);
+  // the controller does not get the context sensors
+  controller->init(sensornumber-nbContextSensors, motornumber, randGen);
   esn = new ESN(30);
   esn->init(sensornumber, motornumber);
   addInspectable(esn);
   addConfigurable(esn);
 };
-  
-void GroupController::step(const sensor* sensors, int sensornumber, 
+
+void GroupController::step(const sensor* sensors, int sensornumber,
 			  motor* motors, int motornumber) {
 
-  if(!ESNCtrl)
+  if(conextCtrl)
   {
-     controller->step(sensors, sensornumber, motors, motornumber);
-
-     Matrix s(sensornumber,1,sensors);
-     Matrix m(motornumber,1,motors);
-     esn->learn(s, m);
+    
   }
   else
   {
-     Matrix s(sensornumber,1,sensors);
-     Matrix m = esn->process(s);
-     m.convertToBuffer(motors, motornumber);
+    Matrix s(sensornumber,1,sensors);
   }
 
-
+  if(esnCtrl){ // let ESN control robot
+    const Matrix& m = esn->process(s);
+    m.convertToBuffer(motors, motornumber);
+  }else{
+    controller->step(sensors, sensornumber-nbContextSensors, motors, motornumber);
+    //ESN controller from here
+    Matrix m(motornumber,1,motors);
+    esn->learn(s, m);
+  }
 };
 
-void GroupController::stepNoLearning(const sensor* sensors, int number_sensors, 
+void GroupController::stepNoLearning(const sensor* sensors, int number_sensors,
 				    motor* motors, int number_motors) {
-  
-  controller->stepNoLearning(sensors, number_sensors, motors, number_motors);
+
+  controller->stepNoLearning(sensors, number_sensors-nbContextSensors,
+			     motors, number_motors);
 };
- 
+
 
 

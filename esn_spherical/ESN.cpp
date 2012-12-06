@@ -64,7 +64,7 @@ using namespace matrix;
 		}
 	}
 
-	for(int count1 = 0; count1 < nbInputs; count1++)
+	for(int count1 = 0; count1 < nbOutputs; count1++)
 	{
 		for(int count = 0; count < nbOutputConnectionPN; count++)
 		{
