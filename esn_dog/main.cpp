@@ -35,6 +35,8 @@
 
 #include <ode_robots/simulation.h>
 #include <ode_robots/odeagent.h>
+#include <ode_robots/speedsensor.h>
+#include <ode_robots/addsensors2robotadapter.h>
 
 //#include <ode_robots/vierbeiner.h>
 #include "vierbeiner.h"
@@ -56,7 +58,7 @@ bool air      = false;
 class ThisSim : public Simulation {
 public:
   Joint* fixator;
-  AbstractGround* playground; 
+  AbstractGround* playground;
   double hardness;
   AbstractController *teachcontroller;
   Env env;
@@ -67,16 +69,16 @@ public:
 
     if(hippo){
       setTitle("HippoDog");
-    }else if(air){      
+    }else if(air){
       setTitle("Dog with weak forces");
     } else {
-      setTitle("Dog on ground");    
+      setTitle("Dog on ground");
     }
-    
+
   }
 
   // starting function (executed once at the beginning of the simulation loop)
-  void start(const OdeHandle& odeHandle, const OsgHandle& osgHandle, GlobalData& global) 
+  void start(const OdeHandle& odeHandle, const OsgHandle& osgHandle, GlobalData& global)
   {
     setCameraHomePos(Pos(-1.64766, 4.48823, 1.71381),  Pos(-158.908, -10.5863, 0));
 
@@ -84,7 +86,7 @@ public:
     // - set noise to 0.0
     // - register file chess.ppm as a texture called chessTexture (used for the wheels)
     global.odeConfig.setParam("controlinterval",1);
-    global.odeConfig.setParam("noise",0.01); 
+    global.odeConfig.setParam("noise",0.01);
     global.odeConfig.setParam("realtimefactor",1);
     global.odeConfig.setParam("gravity", -6);
     //    global.odeConfig.setParam("cameraspeed", 250);
@@ -93,51 +95,51 @@ public:
     bool useDerivativeWiring=false;
 
     // environemnt (type is set in constructor)
-    env.numSpheres  = 0; 
-    env.numBoxes    = 0;   
+    env.numSpheres  = 0;
+    env.numBoxes    = 0;
     env.numCapsules = 0;
     env.numSeeSaws  = 0;
-    env.roughness   = 1.0; 
+    env.roughness   = 1.0;
 
     // use Playground as boundary:
     if(barriers){
-      env.widthground = 4;      
+      env.widthground = 4;
       env.distance    = 6;
       env.numgrounds  = 5;
       env.height      = 0.1;
-      env.heightincrease =0.1;      
+      env.heightincrease =0.1;
     }else {
-      env.widthground = 32;            
+      env.widthground = 32;
       env.height      = 1.0;
     }
 
     env.create(odeHandle, osgHandle, global);
     global.configs.push_back(&env);
 
-    
-    // Boxpile* boxpile = new Boxpile(odeHandle, osgHandle, Pos(10,10,0.2), 
+
+    // Boxpile* boxpile = new Boxpile(odeHandle, osgHandle, Pos(10,10,0.2),
     //                                100,0, Pos(0.3,0.3,0.05), Pos(0.3,0.3,0.05)
     //                                );
-    // boxpile->setColor("wall"); 
+    // boxpile->setColor("wall");
     // boxpile->setPose(ROTM(M_PI/5.0,0,0,1)*TRANSM(0, 0 ,0.2));
     // global.obstacles.push_back(boxpile);
-    
 
 
-    for (int i=0; i< 1/*2*/; i++){ //Several dogs 
+
+    for (int i=0; i< 1/*2*/; i++){ //Several dogs
 
       //    VierBeinerConf conf = VierBeiner::getDefaultConf();
     VierBeinerConf conf = VierBeiner::getDefaultConfVelServos();
 
-    conf.dampingFactor = .0; 
+    conf.dampingFactor = .0;
     conf.powerFactor = 1.3;
     if(air) conf.powerFactor = 0.3;
     if (hippo) conf.powerFactor = 1.5;
-    
-    conf.hipJointLimit = M_PI/3.0;              
+
+    conf.hipJointLimit = M_PI/3.0;
     if ( barriers)  conf.hipJointLimit = M_PI/2.5;
-    
-    conf.kneeJointLimit = M_PI/3;        
+
+    conf.kneeJointLimit = M_PI/3;
     conf.legNumber = 4; /* for the dog's sake use only even numbers */
     conf.useBigBox = false;
     if(hippo) conf.useBigBox = false;
@@ -147,38 +149,43 @@ public:
 
     OdeHandle doghandle = odeHandle;
     doghandle.substance.toRubber(10);
-    VierBeiner* dog = new VierBeiner(doghandle, osgHandle,conf, "Dog");     
-    //dog->place(osg::Matrix::translate(0,0,0.15));  
-    dog->place(osg::Matrix::translate(0,0,.5 + 4*i));
+    VierBeiner* dog = new VierBeiner(doghandle, osgHandle,conf, "Dog");
+    std::list<Sensor*> sensors;
+    sensors.push_back(new SpeedSensor(1,SpeedSensor::TranslationalRel));
+    AddSensors2RobotAdapter* robot =
+      new AddSensors2RobotAdapter(odeHandle,osgHandle,dog, sensors);
+
+    //dog->place(osg::Matrix::translate(0,0,0.15));
+    robot->place(osg::Matrix::translate(0,0,.5 + 4*i));
 
     if(air || barriers){
       Primitive* trunk = dog->getMainPrimitive();
       fixator = new FixedJoint(trunk, global.environment);
       fixator->init(odeHandle, osgHandle);
     }
-    
+
     // create pointer to one2onewiring
     //AbstractWiring* wiring = new One2OneWiring(new ColorUniformNoise(0.1));
-    
+
     double booster = 0.05;
     if(air) booster=0;
 
     AbstractWiring* wiring;
     if(!useDerivativeWiring){
-      wiring = new ForceBoostWiring(new ColorUniformNoise(0.1), booster); 
+      wiring = new ForceBoostWiring(new ColorUniformNoise(0.1), booster);
     }else{
-      //////////////// 
+      ////////////////
       AbstractWiring* fbw = new ForceBoostWiring(new NoNoise(), booster);
       DerivativeWiringConf dc = DerivativeWiring::getDefaultConf();
       dc.useId=true;
       dc.useFirstD=true;
       // dc.derivativeScale = 1.0;
-      AbstractWiring* drw = new DerivativeWiring(dc, new ColorUniformNoise(0.1));  
+      AbstractWiring* drw = new DerivativeWiring(dc, new ColorUniformNoise(0.1));
       if(!useDerivativeWiring){ wiring = new WiringSequence(fbw, drw); // TODO booster bei derivative wiring ???
      }
     }
 
-    AbstractController *controller = new Sox(.7, false);    
+    AbstractController *controller = new Sox(.7, false);
     //AbstractController *controller = new SineController();
     controller->setParam("Logarithmic", 1);
     controller->setParam("epsC",0.05);
@@ -189,22 +196,22 @@ public:
     controller->setParam("period",300);
     controller->setParam("phaseshift",0);
 
-    AbstractController* cont= new GroupController(controller);
+    AbstractController* cont= new GroupController(controller,3); // 3 context sensor
 
     OdeAgent* agent = new OdeAgent(global);
-    agent->init(cont, dog, wiring);
+    agent->init(cont, robot, wiring);
     if(!hippo){
     // add an operator to keep robot from falling over
-      agent->addOperator(new LimitOrientationOperator(Axis(0,0,1), Axis(0,0,1), 
+      agent->addOperator(new LimitOrientationOperator(Axis(0,0,1), Axis(0,0,1),
                                                       M_PI*0.35, 10));
     }
 
     //agent->setTrackOptions(TrackRobot(true,true,false,true,"bodyheight",20)); // position and speed tracking every 20 steps
     global.agents.push_back(agent);
     global.configs.push_back(agent);
-  
+
     }// Several dogs end
-        
+
   }
 
   virtual void bindingDescription(osg::ApplicationUsage & au) const {
@@ -218,9 +225,9 @@ public:
     if (down) { // only when key is pressed, not when released
       switch ( (char) key )
 	{
-	case 'x': 
+	case 'x':
 	  if(fixator) delete fixator;
-	  fixator=0;	 
+	  fixator=0;
 	  return true;
 	  break;
 	default:
@@ -241,7 +248,7 @@ public:
 
 
 int main (int argc, char **argv)
-{ 
+{
   if (Simulation::contains(argv, argc, "-barriers")) {
     barriers=true;
   }
@@ -257,4 +264,4 @@ int main (int argc, char **argv)
   return sim.run(argc, argv) ? 0 : 1;
 
 }
- 
+
