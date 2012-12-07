@@ -31,7 +31,7 @@
 // controller
 #include <selforg/sox.h>
 #include "ESN.h"
-#include "groupController.h"
+#include "esncontroller.h"
 
 #include <selforg/noisegenerator.h> // include noisegenerator (used for adding noise to sensorvalues)
 #include <selforg/one2onewiring.h>  // simple wiring
@@ -99,7 +99,12 @@ public:
     sox->setParam("epsC",1); // controller learning rate
     sox->setParam("causeaware",0.4);
     sox->setParam("pseudo",2);
-    controller = new GroupController(sox, 3); // 3 context sensors
+
+    ESNConf esnConf = ESN::getDefaultConf();
+    esnConf.numNeurons = 30;
+    esnConf.connectionStrength=0.5;
+    esnConf.learningrate=0.05;
+    controller = new ESNController(sox, 3, esnConf); // 3 context sensors
 
     global.configs.push_back ( controller );
 

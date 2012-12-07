@@ -21,8 +21,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  *                                                                         *
  ***************************************************************************/
-#ifndef __GROUPCONTROLLER_H
-#define __GROUPCONTROLLER_H
+#ifndef __ESNCONTROLLER_H
+#define __ESNCONTROLLER_H
 
 
 #include <stdio.h>
@@ -36,14 +36,16 @@
  * period is the length of the period in steps and
  * phaseshift is the phase difference between channels given in Pi/2
  */
-class GroupController : public AbstractController {
+class ESNController : public AbstractController {
 public:
 
   /**
      @param controlmask bitmask to select channels to control (default all)
      @param function controller function to use
    */
-  GroupController(AbstractController* controller, int nbContextSensors = 0);
+  ESNController(AbstractController* controller, int nbContextSensors = 0,
+		const ESNConf& conf = ESN::getDefaultConf())
+;
 
   /** initialisation of the controller with the given sensor/ motornumber
       Must be called before use.
@@ -74,6 +76,8 @@ public:
   virtual void stepNoLearning(const sensor* , int number_sensors,
 			      motor* , int number_motors);
 
+  const matrix::Matrix& getContext() const { return fixedContext; }
+  void setContext(const matrix::Matrix& context);
 
   /********* STORABLE INTERFACE ******/
   /// @see Storable
@@ -95,6 +99,9 @@ protected:
   ESN* esn;
   int nbContextSensors;
   int esnCtrl;
+  // contains the context we want to fix when controlling with esn
+  matrix::Matrix fixedContext;
+
 };
 
 #endif
