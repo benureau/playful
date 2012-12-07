@@ -43,12 +43,14 @@ public:
 
   virtual ~Cloud();
 
-  void configure(int number_motors, int number_sensors, int cluster_count, int frequency);
+  void configure(int number_motors, int number_sensors);
   
   int number_motors;
   int number_sensors;
   int cluster_count;
-  int framerate;
+
+  int clustering_rate;
+  int capture_rate;
 
   void addControllerState(matrix::Matrix A, matrix::Matrix C, matrix::Matrix h);
   void clusterize();

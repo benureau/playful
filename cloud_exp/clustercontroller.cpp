@@ -34,16 +34,18 @@ ClusterController::ClusterController(double init_feedback_strength, bool useExte
                    "enable cluster control.");
    addParameterDef("center", &center, 0, 0, 20, // TODO look if bounds can be dynamic
                    "center number for control.");
-   addParameterDef("clusteringrate", &(cloud.framerate), 25, 0, 100,
+   addParameterDef("clusteringrate", &(cloud.clustering_rate), 1000, 0, 1000000,
                    "number of steps between two clustering routines.");
    addParameterDef("clustercount", &(cloud.cluster_count), 10, 0, 100,
                    "number of clusters to compute.");
+   addParameterDef("capturerate", &(cloud.capture_rate), 10, 0, 100,
+                   "number of steps between two controller capture.");
 
    addInspectable(&cloud);
 }
 
 void ClusterController::init(int sensornumber, int motornumber, RandGen* randGen) {
-  cloud.configure(motornumber, sensornumber, 20, 25);
+  cloud.configure(motornumber, sensornumber);
   Sox::init(sensornumber, motornumber, randGen);
 }
 

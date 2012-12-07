@@ -26,7 +26,6 @@ private:
   // Simulation parameters
   int control;
   int center;
-  int clusteringrate;
   
 };
 

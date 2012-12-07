@@ -16,12 +16,11 @@ Cloud::~Cloud()
 {
 }
 
-void Cloud::configure(int number_motors_, int number_sensors_, int cluster_count_, int framerate_) {
+void Cloud::configure(int number_motors_, int number_sensors_) {
 
   number_motors = number_motors_;
   number_sensors = number_sensors_;
-  cluster_count = cluster_count_;
-  framerate = framerate_;
+
   framecount = 0;
 
   row_length = number_motors*number_sensors + number_motors;
@@ -33,8 +32,9 @@ void Cloud::configure(int number_motors_, int number_sensors_, int cluster_count
 
 void Cloud::addControllerState(Matrix A, Matrix C, Matrix h) {
 
+  framecount += 1;
   
-  if (framecount >= framerate) {
+  if (framecount % capture_rate == 0) {
     MatrixSet ms = MatrixSet(A, C, h);
     statesets.push_back(ms);
 
@@ -43,14 +43,13 @@ void Cloud::addControllerState(Matrix A, Matrix C, Matrix h) {
     points.push_back(features);
     points.reshape(statesets.size(), row_length);
     
+  }
+  if (framecount % clustering_rate == 0) {
     if (statesets.size() >= 2) {
       clusterize();
     }
-    framecount = 0;
-  } else {
-    framecount += 1;
+    
   }
-
   
 }
 
