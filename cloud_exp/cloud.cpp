@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <selforg/stl_adds.h>
 
 #include "cloud.h"
@@ -53,25 +54,30 @@ void Cloud::addControllerState(Matrix A, Matrix C, Matrix h) {
   
 }
 
+bool partialsort(vector<double> a,vector<double> b){
+  return (a[1]<b[1]);
+}
+
 void Cloud::clusterize() {
 
-  kmeans(points, cluster_count, labels, TermCriteria( CV_TERMCRIT_EPS+CV_TERMCRIT_ITER, 30, 0.01), 1, KMEANS_PP_CENTERS, centers);
+  kmeans(points, cluster_count, labels, TermCriteria( CV_TERMCRIT_EPS+CV_TERMCRIT_ITER, 50, 0.01), 3, KMEANS_PP_CENTERS, centers);
 
-//   vector<vector<double> > centers_vector;
-//   for (int i = 0; i < cluster_count; i++) {
-//     vector<double> new_center;
-//     for (unsigned int j = 0; j < row_length; j++) {
-//       new_center.push_back(centers.at<float>(i, j);
-//     }
-//     centers_vector.push_back(new_center);
-//   }
-//       
+  vector<vector<double> > centers_vector;
+  for (int i = 0; i < cluster_count; i++) {
+    vector<double> new_center;
+    for (unsigned int j = 0; j < row_length; j++) {
+      new_center.push_back(centers.at<float>(i, j));
+    }
+    centers_vector.push_back(new_center);
+  }
+  sort(centers_vector.begin(), centers_vector.end(), partialsort);
+  
   if ((int)m.getM() != cluster_count) {
     m.set(cluster_count, row_length);
   }
   for (int i = 0; i < cluster_count; i++) {
     for (unsigned int j = 0; j < row_length; j++) {
-      m.val(i, j) = centers.at<float>(i, j);
+      m.val(i, j) = centers_vector[i][j];
     }
   }
   
