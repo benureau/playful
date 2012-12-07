@@ -54,10 +54,18 @@ void Cloud::addControllerState(Matrix A, Matrix C, Matrix h) {
 }
 
 void Cloud::clusterize() {
-  
-  //centers.create(cluster_count, row_length, points.type());
-  kmeans(points, cluster_count, labels, TermCriteria( CV_TERMCRIT_EPS+CV_TERMCRIT_ITER, 10, 1.0), 3, KMEANS_PP_CENTERS, centers);
 
+  kmeans(points, cluster_count, labels, TermCriteria( CV_TERMCRIT_EPS+CV_TERMCRIT_ITER, 30, 0.01), 1, KMEANS_PP_CENTERS, centers);
+
+//   vector<vector<double> > centers_vector;
+//   for (int i = 0; i < cluster_count; i++) {
+//     vector<double> new_center;
+//     for (unsigned int j = 0; j < row_length; j++) {
+//       new_center.push_back(centers.at<float>(i, j);
+//     }
+//     centers_vector.push_back(new_center);
+//   }
+//       
   if ((int)m.getM() != cluster_count) {
     m.set(cluster_count, row_length);
   }
