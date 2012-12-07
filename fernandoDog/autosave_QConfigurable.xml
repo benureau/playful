@@ -1,0 +1,140 @@
+<!DOCTYPE ConfigurableStateTypeDefinition>
+<ConfigurableStates>
+ <ConfigurableState name="ESN_0">
+  <ConfigurableWidget isCollapsed="false" numberOfTilesPerRow="3">
+   <ConfigurableTileWidgets/>
+  </ConfigurableWidget>
+  <Configurable revision="0.1" id="1142094271" name="ESN" autosaveFunction="1">
+   <!--While in autosave mode, only values, bounds and descriptions of parameters which are differing from their original values are stored.-->
+   <paramvals/>
+   <paramints/>
+   <parambools/>
+  </Configurable>
+ </ConfigurableState>
+ <ConfigurableState name="Simulation Environment_0">
+  <ConfigurableWidget tileWidgetWidth="210" isCollapsed="false" numberOfTilesPerRow="3">
+   <ConfigurableTileWidgets>
+    <ConfigurableTileWidget gridRow="0" gridColumn="0" name="cameraspeed" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="0" gridColumn="1" name="controlinterval" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="0" gridColumn="2" name="fps" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="1" gridColumn="0" name="gravity" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="1" gridColumn="1" name="motionpersistence" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="1" gridColumn="2" name="noise" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="2" gridColumn="0" name="randomseed" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="2" gridColumn="1" name="realtimefactor" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="2" gridColumn="2" name="simstepsize" isVisible="true"/>
+   </ConfigurableTileWidgets>
+  </ConfigurableWidget>
+  <Configurable revision="$Id$" id="846930886" name="Simulation Environment" autosaveFunction="1">
+   <!--While in autosave mode, only values, bounds and descriptions of parameters which are differing from their original values are stored.-->
+   <paramvals>
+    <paramval name="cameraspeed"/>
+    <paramval name="fps"/>
+    <paramval name="gravity"/>
+    <paramval name="motionpersistence"/>
+    <paramval name="noise"/>
+    <paramval name="randomseed"/>
+    <paramval name="realtimefactor"/>
+    <paramval name="simstepsize"/>
+   </paramvals>
+   <paramints>
+    <paramint name="controlinterval"/>
+   </paramints>
+   <parambools/>
+  </Configurable>
+ </ConfigurableState>
+ <ConfigurableState name="LimitOrientationOperator_0">
+  <ConfigurableWidget isCollapsed="false" numberOfTilesPerRow="3">
+   <ConfigurableTileWidgets/>
+  </ConfigurableWidget>
+  <Configurable revision="1.0" id="1384834194" name="LimitOrientationOperator" autosaveFunction="1">
+   <!--While in autosave mode, only values, bounds and descriptions of parameters which are differing from their original values are stored.-->
+   <paramvals/>
+   <paramints/>
+   <parambools/>
+  </Configurable>
+ </ConfigurableState>
+ <ConfigurableState name="Environment_0">
+  <ConfigurableWidget tileWidgetWidth="210" isCollapsed="false" numberOfTilesPerRow="3">
+   <ConfigurableTileWidgets>
+    <ConfigurableTileWidget gridRow="0" gridColumn="0" name="hardness" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="0" gridColumn="1" name="height" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="0" gridColumn="2" name="roughness" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="1" gridColumn="0" name="size" isVisible="true"/>
+   </ConfigurableTileWidgets>
+  </ConfigurableWidget>
+  <Configurable revision="1.0" id="1681692777" name="Environment" autosaveFunction="1">
+   <!--While in autosave mode, only values, bounds and descriptions of parameters which are differing from their original values are stored.-->
+   <paramvals>
+    <paramval name="hardness"/>
+    <paramval name="height"/>
+    <paramval name="roughness"/>
+    <paramval name="size"/>
+   </paramvals>
+   <paramints/>
+   <parambools/>
+  </Configurable>
+ </ConfigurableState>
+ <ConfigurableState name="ForceBoostWiring_0">
+  <ConfigurableWidget tileWidgetWidth="210" isCollapsed="false" numberOfTilesPerRow="3">
+   <ConfigurableTileWidgets>
+    <ConfigurableTileWidget gridRow="0" gridColumn="0" name="booster" isVisible="true"/>
+   </ConfigurableTileWidgets>
+  </ConfigurableWidget>
+  <Configurable revision="1.1" id="1363337306" name="ForceBoostWiring" autosaveFunction="1">
+   <!--While in autosave mode, only values, bounds and descriptions of parameters which are differing from their original values are stored.-->
+   <paramvals>
+    <paramval name="booster"/>
+   </paramvals>
+   <paramints/>
+   <parambools/>
+  </Configurable>
+ </ConfigurableState>
+ <ConfigurableState name="Dog's Agent_0">
+  <ConfigurableWidget isCollapsed="false" numberOfTilesPerRow="3">
+   <ConfigurableTileWidgets/>
+  </ConfigurableWidget>
+  <Configurable revision="" id="562144557" name="Dog's Agent" autosaveFunction="1">
+   <!--While in autosave mode, only values, bounds and descriptions of parameters which are differing from their original values are stored.-->
+   <paramvals/>
+   <paramints/>
+   <parambools/>
+  </Configurable>
+ </ConfigurableState>
+ <ConfigurableState name="Dog_0">
+  <ConfigurableWidget tileWidgetWidth="210" isCollapsed="false" numberOfTilesPerRow="3">
+   <ConfigurableTileWidgets>
+    <ConfigurableTileWidget gridRow="0" gridColumn="0" name="powerfactor" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="0" gridColumn="1" name="stiffness" isVisible="true"/>
+   </ConfigurableTileWidgets>
+  </ConfigurableWidget>
+  <Configurable revision="0.8" id="1897120677" name="Dog" autosaveFunction="1">
+   <!--While in autosave mode, only values, bounds and descriptions of parameters which are differing from their original values are stored.-->
+   <paramvals>
+    <paramval name="powerfactor"/>
+    <paramval name="stiffness"/>
+   </paramvals>
+   <paramints/>
+   <parambools/>
+  </Configurable>
+ </ConfigurableState>
+ <ConfigurableState name="FernandoController_0">
+  <ConfigurableWidget tileWidgetWidth="210" isCollapsed="false" numberOfTilesPerRow="3">
+   <ConfigurableTileWidgets>
+    <ConfigurableTileWidget gridRow="0" gridColumn="0" name="amplitude" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="0" gridColumn="1" name="period" isVisible="true"/>
+    <ConfigurableTileWidget gridRow="0" gridColumn="2" name="phaseshift" isVisible="true"/>
+   </ConfigurableTileWidgets>
+  </ConfigurableWidget>
+  <Configurable revision="$Id$" id="1604142036" name="FernandoController" autosaveFunction="1">
+   <!--While in autosave mode, only values, bounds and descriptions of parameters which are differing from their original values are stored.-->
+   <paramvals>
+    <paramval name="amplitude"/>
+    <paramval name="period"/>
+    <paramval name="phaseshift"/>
+   </paramvals>
+   <paramints/>
+   <parambools/>
+  </Configurable>
+ </ConfigurableState>
+</ConfigurableStates>
