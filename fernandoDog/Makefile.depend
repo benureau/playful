@@ -1,0 +1,345 @@
+# DO NOT DELETE
+
+main.o: /usr/include/stdio.h /usr/include/features.h /usr/include/libio.h
+main.o: /usr/include/_G_config.h /usr/include/wchar.h /usr/include/xlocale.h
+main.o: /usr/local/include/selforg/noisegenerator.h /usr/include/stdlib.h
+main.o: /usr/include/alloca.h /usr/include/time.h /usr/include/assert.h
+main.o: /usr/local/include/selforg/randomgenerator.h
+main.o: /usr/local/include/selforg/mac_drand48r.h /usr/include/limits.h
+main.o: /usr/include/limits.h /usr/local/include/selforg/one2onewiring.h
+main.o: /usr/local/include/selforg/abstractwiring.h
+main.o: /usr/local/include/selforg/matrix.h /usr/include/string.h
+main.o: /usr/local/include/selforg/storeable.h
+main.o: /usr/local/include/selforg/noisegenerator.h
+main.o: /usr/local/include/selforg/inspectable.h
+main.o: /usr/local/include/selforg/stl_adds.h
+main.o: /usr/local/include/selforg/forceboostwiring.h
+main.o: /usr/local/include/selforg/configurable.h
+main.o: /usr/local/include/selforg/backcaller.h
+main.o: /usr/local/include/selforg/stl_map.h
+main.o: /usr/local/include/selforg/wiringsequence.h
+main.o: /usr/local/include/selforg/derivativewiring.h
+main.o: /usr/local/include/selforg/sox.h
+main.o: /usr/local/include/selforg/abstractcontroller.h
+main.o: /usr/local/include/selforg/controller_misc.h
+main.o: /usr/local/include/selforg/matrix.h
+main.o: /usr/local/include/selforg/teachable.h
+main.o: /usr/local/include/selforg/sinecontroller.h
+main.o: /usr/local/include/selforg/abstractcontroller.h
+main.o: /usr/local/include/ode_robots/simulation.h
+main.o: /usr/local/include/ode_robots/base.h /usr/local/include/ode-dbl/ode.h
+main.o: /usr/local/include/ode-dbl/odeconfig.h /usr/include/math.h
+main.o: /usr/local/include/ode-dbl/compatibility.h
+main.o: /usr/local/include/ode-dbl/common.h
+main.o: /usr/local/include/ode-dbl/error.h
+main.o: /usr/local/include/ode-dbl/odeinit.h
+main.o: /usr/local/include/ode-dbl/contact.h
+main.o: /usr/local/include/ode-dbl/memory.h
+main.o: /usr/local/include/ode-dbl/odemath.h
+main.o: /usr/local/include/ode-dbl/matrix.h
+main.o: /usr/local/include/ode-dbl/timer.h
+main.o: /usr/local/include/ode-dbl/rotation.h
+main.o: /usr/local/include/ode-dbl/mass.h /usr/local/include/ode-dbl/misc.h
+main.o: /usr/local/include/ode-dbl/objects.h
+main.o: /usr/local/include/ode-dbl/odecpp.h
+main.o: /usr/local/include/ode-dbl/collision_space.h
+main.o: /usr/local/include/ode-dbl/collision.h
+main.o: /usr/local/include/ode-dbl/collision_trimesh.h
+main.o: /usr/local/include/ode-dbl/odecpp_collision.h
+main.o: /usr/local/include/ode-dbl/export-dif.h
+main.o: /usr/local/include/osg/Transform /usr/local/include/osg/Group
+main.o: /usr/local/include/osg/Node /usr/local/include/osg/Object
+main.o: /usr/local/include/osg/Referenced /usr/local/include/osg/Export
+main.o: /usr/local/include/osg/Config
+main.o: /usr/local/include/OpenThreads/ScopedLock
+main.o: /usr/local/include/OpenThreads/Mutex
+main.o: /usr/local/include/OpenThreads/Exports
+main.o: /usr/local/include/OpenThreads/Config
+main.o: /usr/local/include/OpenThreads/Atomic /usr/local/include/osg/CopyOp
+main.o: /usr/local/include/osg/ref_ptr /usr/local/include/osg/Notify
+main.o: /usr/local/include/osg/StateSet /usr/local/include/osg/StateAttribute
+main.o: /usr/local/include/osg/StateAttributeCallback
+main.o: /usr/local/include/osg/Shader /usr/local/include/osg/GL2Extensions
+main.o: /usr/local/include/osg/GL /usr/include/GL/gl.h
+main.o: /usr/include/GL/glext.h /usr/include/inttypes.h /usr/include/stdint.h
+main.o: /usr/local/include/osg/buffered_value
+main.o: /usr/local/include/osg/DisplaySettings /usr/local/include/osg/Uniform
+main.o: /usr/local/include/osg/Array /usr/local/include/osg/MixinVector
+main.o: /usr/local/include/osg/Vec2 /usr/local/include/osg/Vec2f
+main.o: /usr/local/include/osg/Math /usr/local/include/osg/Vec3
+main.o: /usr/local/include/osg/Vec3f /usr/local/include/osg/Vec4
+main.o: /usr/local/include/osg/Vec4f /usr/local/include/osg/Vec2d
+main.o: /usr/local/include/osg/Vec3d /usr/local/include/osg/Vec4d
+main.o: /usr/local/include/osg/Vec4ub /usr/local/include/osg/Vec2s
+main.o: /usr/local/include/osg/Vec3s /usr/local/include/osg/Vec4s
+main.o: /usr/local/include/osg/Vec2b /usr/local/include/osg/Vec3b
+main.o: /usr/local/include/osg/Vec4b /usr/local/include/osg/Matrix
+main.o: /usr/local/include/osg/Matrixd /usr/local/include/osg/Quat
+main.o: /usr/local/include/osg/Matrixf /usr/local/include/osg/BufferObject
+main.o: /usr/local/include/osg/FrameStamp
+main.o: /usr/local/include/osg/BoundingSphere
+main.o: /usr/local/include/osg/NodeCallback
+main.o: /usr/local/include/osg/NodeVisitor /usr/local/include/osgText/Text
+main.o: /usr/local/include/osg/Drawable /usr/local/include/osg/BoundingBox
+main.o: /usr/local/include/osg/Shape /usr/local/include/osg/Plane
+main.o: /usr/local/include/osg/PrimitiveSet /usr/local/include/osg/RenderInfo
+main.o: /usr/local/include/osg/State /usr/local/include/osg/Observer
+main.o: /usr/local/include/osg/Timer /usr/local/include/osg/ShaderComposer
+main.o: /usr/local/include/osg/Program /usr/local/include/osg/Polytope
+main.o: /usr/local/include/osg/fast_back_stack
+main.o: /usr/local/include/osg/Viewport
+main.o: /usr/local/include/osg/GLBeginEndAdapter
+main.o: /usr/local/include/osg/ArrayDispatchers
+main.o: /usr/local/include/osg/GraphicsCostEstimator
+main.o: /usr/local/include/osg/View /usr/local/include/osg/Camera
+main.o: /usr/local/include/osg/ColorMask /usr/local/include/osg/CullSettings
+main.o: /usr/local/include/osg/ClearNode /usr/local/include/osg/Texture
+main.o: /usr/local/include/osg/Image /usr/local/include/osg/GraphicsContext
+main.o: /usr/local/include/osg/GraphicsThread
+main.o: /usr/local/include/osg/OperationThread
+main.o: /usr/local/include/osg/observer_ptr
+main.o: /usr/local/include/OpenThreads/Thread
+main.o: /usr/local/include/OpenThreads/Barrier
+main.o: /usr/local/include/OpenThreads/Condition
+main.o: /usr/local/include/OpenThreads/Block /usr/local/include/osg/Stats
+main.o: /usr/local/include/osg/Light /usr/local/include/osgText/TextBase
+main.o: /usr/local/include/osgText/String /usr/local/include/osgText/Export
+main.o: /usr/local/include/osgText/KerningType
+main.o: /usr/local/include/osgText/Font /usr/local/include/osg/TexEnv
+main.o: /usr/local/include/osgText/Glyph /usr/local/include/osg/Texture2D
+main.o: /usr/local/include/osg/Geometry /usr/local/include/osg/Geode
+main.o: /usr/local/include/osgText/Style /usr/local/include/osgDB/Options
+main.o: /usr/local/include/osgDB/Callbacks
+main.o: /usr/local/include/osgDB/AuthenticationMap
+main.o: /usr/local/include/osgDB/Export /usr/local/include/osgDB/ReaderWriter
+main.o: /usr/local/include/osgDB/FileCache
+main.o: /usr/local/include/osgDB/DatabaseRevisions
+main.o: /usr/local/include/osg/ObserverNodePath
+main.o: /usr/local/include/ode_robots/osghandle.h
+main.o: /usr/local/include/ode_robots/osgforwarddecl.h
+main.o: /usr/local/include/ode_robots/color.h
+main.o: /usr/local/include/ode_robots/colorschema.h
+main.o: /usr/local/include/selforg/stl_map.h
+main.o: /usr/local/include/ode_robots/odehandle.h
+main.o: /usr/local/include/ode_robots/substance.h
+main.o: /usr/local/include/ode_robots/hudstatistics.h
+main.o: /usr/local/include/selforg/statistictools.h
+main.o: /usr/local/include/selforg/callbackable.h
+main.o: /usr/local/include/selforg/measuremodes.h
+main.o: /usr/local/include/selforg/analysationmodes.h
+main.o: /usr/local/include/selforg/templatevalueanalysation.h
+main.o: /usr/local/include/selforg/configurable.h
+main.o: /usr/local/include/osgViewer/Viewer
+main.o: /usr/local/include/osg/ArgumentParser
+main.o: /usr/local/include/osg/ApplicationUsage
+main.o: /usr/local/include/osgGA/EventVisitor
+main.o: /usr/local/include/osg/Billboard /usr/local/include/osg/LOD
+main.o: /usr/local/include/osg/Switch /usr/local/include/osg/LightSource
+main.o: /usr/local/include/osg/Projection /usr/local/include/osg/OccluderNode
+main.o: /usr/local/include/osg/ConvexPlanarOccluder
+main.o: /usr/local/include/osg/ConvexPlanarPolygon
+main.o: /usr/local/include/osgGA/GUIEventAdapter
+main.o: /usr/local/include/osgGA/Export
+main.o: /usr/local/include/osgGA/GUIActionAdapter
+main.o: /usr/local/include/osgGA/EventQueue
+main.o: /usr/local/include/osgUtil/UpdateVisitor
+main.o: /usr/local/include/osgUtil/Export
+main.o: /usr/local/include/osgViewer/GraphicsWindow
+main.o: /usr/local/include/osgViewer/Export /usr/local/include/osgViewer/View
+main.o: /usr/local/include/osgUtil/PolytopeIntersector
+main.o: /usr/local/include/osgUtil/IntersectionVisitor
+main.o: /usr/local/include/osgUtil/LineSegmentIntersector
+main.o: /usr/local/include/osgUtil/SceneView
+main.o: /usr/local/include/osg/CollectOccludersVisitor
+main.o: /usr/local/include/osg/CullStack /usr/local/include/osg/CullingSet
+main.o: /usr/local/include/osg/ShadowVolumeOccluder
+main.o: /usr/local/include/osgUtil/CullVisitor
+main.o: /usr/local/include/osgUtil/StateGraph
+main.o: /usr/local/include/osgUtil/RenderLeaf
+main.o: /usr/local/include/osgUtil/RenderStage
+main.o: /usr/local/include/osg/FrameBufferObject
+main.o: /usr/local/include/osgUtil/RenderBin
+main.o: /usr/local/include/osgUtil/PositionalStateContainer
+main.o: /usr/local/include/osgGA/CameraManipulator
+main.o: /usr/local/include/osg/CoordinateSystemNode
+main.o: /usr/local/include/osgGA/GUIEventHandler
+main.o: /usr/local/include/osgViewer/Scene
+main.o: /usr/local/include/osgDB/DatabasePager
+main.o: /usr/local/include/osg/PagedLOD
+main.o: /usr/local/include/osgUtil/IncrementalCompileOperation
+main.o: /usr/local/include/osgUtil/GLObjectsVisitor
+main.o: /usr/local/include/osgDB/SharedStateManager
+main.o: /usr/local/include/osgDB/ImagePager
+main.o: /usr/local/include/osgViewer/ViewerBase
+main.o: /usr/local/include/osgViewer/ViewerEventHandlers
+main.o: /usr/local/include/osg/AnimationPath
+main.o: /usr/local/include/osgGA/AnimationPathManipulator
+main.o: /usr/local/include/osgDB/fstream
+main.o: /usr/local/include/osgGA/KeySwitchMatrixManipulator
+main.o: /usr/local/include/ode_robots/globaldata.h
+main.o: /usr/local/include/ode_robots/odeconfig.h
+main.o: /usr/local/include/ode_robots/sound.h
+main.o: /usr/local/include/ode_robots/pos.h
+main.o: /usr/local/include/selforg/position.h
+main.o: /usr/local/include/ode_robots/tmpobject.h
+main.o: /usr/local/include/ode_robots/pose.h
+main.o: /usr/local/include/selforg/plotoption.h
+main.o: /usr/local/include/selforg/globaldatabase.h
+main.o: /usr/local/include/selforg/agent.h
+main.o: /usr/local/include/selforg/wiredcontroller.h
+main.o: /usr/local/include/selforg/plotoptionengine.h
+main.o: /usr/local/include/selforg/plotoption.h
+main.o: /usr/local/include/selforg/types.h
+main.o: /usr/local/include/selforg/trackrobots.h
+main.o: /usr/local/include/selforg/trackable.h
+main.o: /usr/local/include/selforg/configurablelist.h
+main.o: /usr/local/include/selforg/backcallervector.h
+main.o: /usr/local/include/ode_robots/grabframe.h
+main.o: /usr/local/include/ode_robots/camerahandle.h
+main.o: /usr/local/include/ode_robots/odeagent.h
+main.o: /usr/local/include/selforg/agent.h
+main.o: /usr/local/include/selforg/storeable.h
+main.o: /usr/local/include/ode_robots/oderobot.h
+main.o: /usr/local/include/selforg/abstractrobot.h
+main.o: /usr/local/include/selforg/trackable.h
+main.o: /usr/local/include/selforg/position.h
+main.o: /usr/local/include/ode_robots/osgprimitive.h
+main.o: /usr/local/include/osgDB/ReadFile /usr/local/include/osgDB/Registry
+main.o: /usr/local/include/OpenThreads/ReentrantMutex
+main.o: /usr/local/include/osg/KdTree /usr/local/include/osgDB/DynamicLibrary
+main.o: /usr/local/include/osgDB/DotOsgWrapper /usr/local/include/osgDB/Input
+main.o: /usr/local/include/osgDB/Output
+main.o: /usr/local/include/osgDB/ObjectWrapper
+main.o: /usr/local/include/osgDB/Serializer
+main.o: /usr/local/include/osgDB/InputStream /usr/local/include/osg/Endian
+main.o: /usr/local/include/osgDB/StreamOperator
+main.o: /usr/local/include/osgDB/DataTypes
+main.o: /usr/local/include/osgDB/OutputStream
+main.o: /usr/local/include/osgDB/ImageProcessor
+main.o: /usr/local/include/ode_robots/primitive.h
+main.o: /usr/local/include/ode_robots/operator.h vierbeiner.h
+main.o: /usr/local/include/ode_robots/oderobot.h
+main.o: /usr/local/include/ode_robots/joint.h
+main.o: /usr/local/include/ode_robots/axis.h
+main.o: /usr/local/include/ode_robots/operators.h environment.h
+main.o: /usr/local/include/ode_robots/playground.h
+main.o: /usr/local/include/ode_robots/mathutils.h
+main.o: /usr/local/include/ode_robots/abstractground.h
+main.o: /usr/local/include/ode_robots/abstractobstacle.h
+main.o: /usr/local/include/ode_robots/octaplayground.h
+main.o: /usr/local/include/ode_robots/passivesphere.h
+main.o: /usr/local/include/ode_robots/passivebox.h
+main.o: /usr/local/include/ode_robots/passivecapsule.h
+main.o: /usr/local/include/ode_robots/seesaw.h
+main.o: /usr/local/include/ode_robots/joint.h
+main.o: /usr/local/include/ode_robots/boxpile.h FernandoController.h DN.h
+main.o: /usr/local/include/selforg/abstractmodel.h CuriosityLoop.h
+vierbeiner.o: /usr/include/assert.h /usr/include/features.h
+vierbeiner.o: /usr/local/include/ode-dbl/ode.h
+vierbeiner.o: /usr/local/include/ode-dbl/odeconfig.h /usr/include/stdio.h
+vierbeiner.o: /usr/include/libio.h /usr/include/_G_config.h
+vierbeiner.o: /usr/include/wchar.h /usr/include/xlocale.h
+vierbeiner.o: /usr/include/stdlib.h /usr/include/alloca.h /usr/include/math.h
+vierbeiner.o: /usr/include/string.h
+vierbeiner.o: /usr/local/include/ode-dbl/compatibility.h
+vierbeiner.o: /usr/local/include/ode-dbl/common.h
+vierbeiner.o: /usr/local/include/ode-dbl/error.h
+vierbeiner.o: /usr/local/include/ode-dbl/odeinit.h
+vierbeiner.o: /usr/local/include/ode-dbl/contact.h
+vierbeiner.o: /usr/local/include/ode-dbl/memory.h
+vierbeiner.o: /usr/local/include/ode-dbl/odemath.h
+vierbeiner.o: /usr/local/include/ode-dbl/matrix.h
+vierbeiner.o: /usr/local/include/ode-dbl/timer.h
+vierbeiner.o: /usr/local/include/ode-dbl/rotation.h
+vierbeiner.o: /usr/local/include/ode-dbl/mass.h
+vierbeiner.o: /usr/local/include/ode-dbl/misc.h
+vierbeiner.o: /usr/local/include/ode-dbl/objects.h
+vierbeiner.o: /usr/local/include/ode-dbl/odecpp.h
+vierbeiner.o: /usr/local/include/ode-dbl/collision_space.h
+vierbeiner.o: /usr/local/include/ode-dbl/collision.h
+vierbeiner.o: /usr/local/include/ode-dbl/collision_trimesh.h
+vierbeiner.o: /usr/local/include/ode-dbl/odecpp_collision.h
+vierbeiner.o: /usr/local/include/ode-dbl/export-dif.h
+vierbeiner.o: /usr/local/include/ode_robots/primitive.h
+vierbeiner.o: /usr/local/include/selforg/storeable.h
+vierbeiner.o: /usr/local/include/ode_robots/pos.h /usr/local/include/osg/Vec3
+vierbeiner.o: /usr/local/include/osg/Vec3f /usr/local/include/osg/Vec2f
+vierbeiner.o: /usr/local/include/osg/Math /usr/local/include/osg/Export
+vierbeiner.o: /usr/local/include/osg/Config /usr/local/include/osg/Vec4
+vierbeiner.o: /usr/local/include/osg/Vec4f
+vierbeiner.o: /usr/local/include/selforg/position.h
+vierbeiner.o: /usr/local/include/ode_robots/pose.h
+vierbeiner.o: /usr/local/include/osg/Matrix /usr/local/include/osg/Matrixd
+vierbeiner.o: /usr/local/include/osg/Object /usr/local/include/osg/Referenced
+vierbeiner.o: /usr/local/include/OpenThreads/ScopedLock
+vierbeiner.o: /usr/local/include/OpenThreads/Mutex
+vierbeiner.o: /usr/local/include/OpenThreads/Exports
+vierbeiner.o: /usr/local/include/OpenThreads/Config
+vierbeiner.o: /usr/local/include/OpenThreads/Atomic
+vierbeiner.o: /usr/local/include/osg/CopyOp /usr/local/include/osg/ref_ptr
+vierbeiner.o: /usr/local/include/osg/Notify /usr/local/include/osg/Vec3d
+vierbeiner.o: /usr/local/include/osg/Vec2d /usr/local/include/osg/Vec4d
+vierbeiner.o: /usr/local/include/osg/Quat /usr/local/include/osg/Matrixf
+vierbeiner.o: /usr/local/include/ode_robots/substance.h
+vierbeiner.o: /usr/local/include/ode_robots/osgforwarddecl.h
+vierbeiner.o: /usr/local/include/ode_robots/joint.h
+vierbeiner.o: /usr/local/include/ode_robots/primitive.h
+vierbeiner.o: /usr/local/include/ode_robots/axis.h
+vierbeiner.o: /usr/local/include/ode_robots/osghandle.h
+vierbeiner.o: /usr/local/include/ode_robots/color.h
+vierbeiner.o: /usr/local/include/ode_robots/colorschema.h
+vierbeiner.o: /usr/local/include/selforg/stl_map.h
+vierbeiner.o: /usr/local/include/ode_robots/odehandle.h
+vierbeiner.o: /usr/local/include/ode_robots/oneaxisservo.h
+vierbeiner.o: /usr/local/include/ode_robots/joint.h
+vierbeiner.o: /usr/local/include/ode_robots/pid.h
+vierbeiner.o: /usr/local/include/ode_robots/angularmotor.h
+vierbeiner.o: /usr/local/include/selforg/controller_misc.h
+vierbeiner.o: /usr/local/include/selforg/matrix.h
+vierbeiner.o: /usr/local/include/selforg/stl_adds.h
+vierbeiner.o: /usr/local/include/selforg/noisegenerator.h /usr/include/time.h
+vierbeiner.o: /usr/local/include/selforg/randomgenerator.h
+vierbeiner.o: /usr/local/include/selforg/mac_drand48r.h /usr/include/limits.h
+vierbeiner.o: /usr/include/limits.h /usr/local/include/selforg/inspectable.h
+vierbeiner.o: vierbeiner.h /usr/local/include/ode_robots/oderobot.h
+FernandoController.o: /usr/include/stdio.h /usr/include/features.h
+FernandoController.o: /usr/include/libio.h /usr/include/_G_config.h
+FernandoController.o: /usr/include/wchar.h /usr/include/xlocale.h
+FernandoController.o: /usr/include/assert.h FernandoController.h
+FernandoController.o: /usr/local/include/selforg/abstractcontroller.h
+FernandoController.o: /usr/local/include/selforg/configurable.h
+FernandoController.o: /usr/local/include/selforg/stl_adds.h
+FernandoController.o: /usr/local/include/selforg/backcaller.h
+FernandoController.o: /usr/local/include/selforg/stl_map.h
+FernandoController.o: /usr/local/include/selforg/inspectable.h
+FernandoController.o: /usr/local/include/selforg/storeable.h
+FernandoController.o: /usr/local/include/selforg/randomgenerator.h
+FernandoController.o: /usr/include/stdlib.h /usr/include/alloca.h
+FernandoController.o: /usr/local/include/selforg/mac_drand48r.h
+FernandoController.o: /usr/include/limits.h /usr/include/limits.h
+FernandoController.o: /usr/local/include/selforg/matrix.h DN.h
+FernandoController.o: /usr/local/include/selforg/abstractmodel.h
+FernandoController.o: /usr/local/include/selforg/matrix.h
+FernandoController.o: /usr/include/string.h CuriosityLoop.h
+FernandoController.o: /usr/local/include/selforg/controller_misc.h
+FernandoController.o: /usr/local/include/selforg/noisegenerator.h
+FernandoController.o: /usr/include/time.h
+DN.o: DN.h /usr/include/stdio.h /usr/include/features.h /usr/include/libio.h
+DN.o: /usr/include/_G_config.h /usr/include/wchar.h /usr/include/xlocale.h
+DN.o: /usr/local/include/selforg/abstractmodel.h
+DN.o: /usr/local/include/selforg/matrix.h /usr/include/string.h
+DN.o: /usr/include/assert.h /usr/local/include/selforg/storeable.h
+DN.o: /usr/local/include/selforg/configurable.h
+DN.o: /usr/local/include/selforg/stl_adds.h
+DN.o: /usr/local/include/selforg/backcaller.h
+DN.o: /usr/local/include/selforg/stl_map.h
+DN.o: /usr/local/include/selforg/inspectable.h
+DN.o: /usr/local/include/selforg/randomgenerator.h /usr/include/stdlib.h
+DN.o: /usr/include/alloca.h /usr/local/include/selforg/mac_drand48r.h
+DN.o: /usr/include/limits.h /usr/include/limits.h
+DN.o: /usr/local/include/selforg/matrix.h CuriosityLoop.h
+DN.o: /usr/local/include/selforg/controller_misc.h
+DN.o: /usr/local/include/selforg/noisegenerator.h /usr/include/time.h
+CuriosityLoop.o: CuriosityLoop.h /usr/include/stdlib.h
+CuriosityLoop.o: /usr/include/features.h /usr/include/alloca.h
+CuriosityLoop.o: /usr/local/include/selforg/matrix.h
