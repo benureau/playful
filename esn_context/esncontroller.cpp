@@ -25,7 +25,7 @@
 #include <stdio.h>
 #include <cmath>
 #include <assert.h>
-#include "groupController.h"
+#include "esncontroller.h"
 #include <selforg/controller_misc.h>
 #include "ESN.h"
 
@@ -33,42 +33,53 @@ using namespace std;
 using namespace matrix;
 
 
-GroupController::GroupController(AbstractController* controller, int nbContextSensors)
-  : AbstractController("GroupController", "$Id$"),
+ESNController::ESNController(AbstractController* controller, int nbContextSensors,
+			     const ESNConf& conf)
+  : AbstractController("ESNController", "0.2"),
     controller(controller), nbContextSensors(nbContextSensors)
 {
   addConfigurable(controller);
-  addParameterDef("esnCtrl", &esnCtrl,0,0,1,"0: Normal control, 1: ESN control");
+  addParameterDef("esnCtrl", &esnCtrl,0,0,1,"0: Normal control, 1: ESN control, 2: ESN control with set context");
+
+  fixedContext.set(nbContextSensors,1);
+  for(int i=0; i< nbContextSensors; i++){
+    addParameterDef("context" + itos(i),&(fixedContext.val(i,0)),0,-2,2,
+		    "fixed value for context sensor " + itos(i));
+  }
+  esn = new ESN(conf);
 };
 
 /** initialisation of the controller with the given sensor/ motornumber
     Must be called before use.
 */
-void GroupController::init(int sensornumber, int motornumber, RandGen* randGen){
+void ESNController::init(int sensornumber, int motornumber, RandGen* randGen){
   // the controller does not get the context sensors
   controller->init(sensornumber-nbContextSensors, motornumber, randGen);
-  esn = new ESN(30);
   esn->init(sensornumber, motornumber);
   addInspectable(esn);
   addConfigurable(esn);
 };
 
-void GroupController::step(const sensor* sensors, int sensornumber,
+void ESNController::step(const sensor* sensors, int sensornumber,
 			  motor* motors, int motornumber) {
 
   Matrix s(sensornumber,1,sensors);
-  if(esnCtrl){ // let ESN control robot
-    const Matrix& m = esn->process(s);
-    m.convertToBuffer(motors, motornumber);
-  }else{
+  if(esnCtrl==0){
     controller->step(sensors, sensornumber-nbContextSensors, motors, motornumber);
-    //ESN controller from here
+
     Matrix m(motornumber,1,motors);
     esn->learn(s, m);
+  }else{// let ESN control robot
+    if(esnCtrl==2){ // also set context
+      s.reshape(sensornumber-nbContextSensors,1);
+      s.toAbove(fixedContext);
+    }
+    const Matrix& m = esn->process(s);
+    m.convertToBuffer(motors, motornumber);
   }
 };
 
-void GroupController::stepNoLearning(const sensor* sensors, int number_sensors,
+void ESNController::stepNoLearning(const sensor* sensors, int number_sensors,
 				    motor* motors, int number_motors) {
 
   controller->stepNoLearning(sensors, number_sensors-nbContextSensors,
@@ -76,4 +87,10 @@ void GroupController::stepNoLearning(const sensor* sensors, int number_sensors,
 };
 
 
+
+void ESNController::setContext(const Matrix& context) {
+  assert(context.getM() == fixedContext.getM());
+  assert(context.getN() == fixedContext.getN());
+  fixedContext = context;
+};
 
