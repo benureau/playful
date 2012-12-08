@@ -82,8 +82,8 @@ double lr;
     controller->step(sensors, sensornumber-nbContextSensors, motors, motornumber);
     //ESN controller from here
     Matrix m(motornumber,1,motors);
-//     if(((s.val(2,0) < 0.1)) and ((s.val(2,0) > -0.1)) )
-	if(((s.val(3,0) > 0.45)) and ((s.val(4,0) > 0.45)) ) 
+     if(((s.val(2,0) < 0.1)) and ((s.val(2,0) > -0.1)) )
+//	if(((s.val(3,0) > 0.45)) and ((s.val(4,0) > 0.45)) ) 
     {
      lr=1;
     }
