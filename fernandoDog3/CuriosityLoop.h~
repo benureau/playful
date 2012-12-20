@@ -64,10 +64,9 @@ class CuriosityLoop: public Inspectable {
         double old_prediction_error_time_average; 
 
 	//Stores the errors over time for the restricted and unrestricted predictors in this loop. 
-	matrix::Matrix parent_error; 
-	matrix::Matrix offspring_error; 
-	matrix::Matrix uParent_error; 
-	matrix::Matrix uOffspring_error; 
+	matrix::Matrix parent_error; 	//This is NOT the parent error but the RESTRICTED PREDICTOR ERRRO for both parent and offspring. (parent < 250, offspring > 250). 
+	matrix::Matrix offspring_error; //This is NOT the offspring actor error but the UNRESTRICTED PREDICTOR ERROR for both parent and offspring. 
+	 
 
 	private: 
 	

@@ -65,6 +65,7 @@ FernandoController::FernandoController(unsigned long int controlmask, function f
 void FernandoController::init(int sensornumber, int motornumber, RandGen* randGen){
   number_sensors=sensornumber;
   number_motors=motornumber;
+  TRIAL_LENGTH = 5000; 
   M.set(motornumber,sensornumber);
   smMem.set(motornumber + sensornumber +1, 1); //Create a matrix that stores the previous motor action. 
   dn = new DN(1); //Construct the Darwinian Neurodynamic controller. 
@@ -85,7 +86,7 @@ void FernandoController::step(const sensor* sensors, int sensornumber,
   Matrix s(sensornumber,1,sensors);
   
   //Select a LOOP to take control every 500 TS. 
-  if(t%500 == 0){	
+  if(t%TRIAL_LENGTH == 0){	
 
 	  chosen_actor = dn->actionSelection(s); //e.g. choose actor of the loop that has the highest fitness to act. 
 	  phase = 0; //Start the actor mutation and assessment phase 
@@ -93,7 +94,7 @@ void FernandoController::step(const sensor* sensors, int sensornumber,
           //At this point for the first half of this actor period the parent actor acts and the error and variance of the restricted predictor and the unrestrictde predictor are estimated. 	  
 	  parentActing = 1; 
   }
-  if(phase == 250){ 
+  if(phase == TRIAL_LENGTH/2.0){ 
         //Half way through, a mutant actor offspring is produced and the error and variance of the r and u predictors are again recorded for 250 ts.
   	//Replicate and mutate the chosen_actor 
 	dn->replicateMutate(chosen_actor); 
@@ -101,7 +102,7 @@ void FernandoController::step(const sensor* sensors, int sensornumber,
 	parentActing = 0; 
   }
 
-  if(phase == 499){ 
+  if(phase == TRIAL_LENGTH-1){ 
 	//If some function of the error and variance of the u/r predictors is satisfied the offspring actor overwrites the parent actor, else the parent actor is kept. 
 	dn->getErrorsFromChosenActor(chosen_actor); 	
 	dn->determineActorFitness(chosen_actor); 

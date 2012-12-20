@@ -16,6 +16,9 @@
 #include "CuriosityLoop.h"
 #include <vector>
 #include <selforg/inspectable.h> 
+#include <iostream> 
+#include <fstream> 
+
 
 class DN : public AbstractModel {
 public:
@@ -52,7 +55,7 @@ public:
   virtual void replicateMutate(int chosen_actor);  
   virtual void replicateUnrestrictPredictor(int chosen_actor, int i, int s); 
   virtual void determineActorFitness(int chosen_actor); 
-  virtual void getErrorsFromChosenActor(chosen_actor); 	
+  virtual void getErrorsFromChosenActor(int chosen_actor); 	
 
 
  //******************OLD FUNCTIONS FROM ESN**************************

@@ -3,27 +3,32 @@
  *                Supervisors: Ralf Der, Georg Martius                       *  
 
  * Members: Fabien Benureau, Chrisantha Fernando, Quan Wang, Jimmy Baraglia  *
- *                   Darwinian Neurodynamics  Header File                    *
+ *                   Echo State Network Header File                          *
  *                                                                           *
  *****************************************************************************/
-#ifndef __DN_H
-#define __DN_H
+#ifndef __ESN_H
+#define __ESN_H
 
 
 #include <stdio.h>
 #include <selforg/abstractmodel.h>
 #include <selforg/matrix.h>
-#include "CuriosityLoop.h"
-#include <vector>
-#include <selforg/inspectable.h> 
-#include <iostream> 
-#include <fstream> 
 
 
-class DN : public AbstractModel {
+/**
+ * class for robot control with sine, sawtooth and impuls  
+ * 
+ * period is the length of the period in steps and 
+ * phaseshift is the phase difference between channels given in Pi/2
+ */
+class ESN : public AbstractModel {
 public:
 
-  DN(int pop_size = 50);
+  /**     
+     @param controlmask bitmask to select channels to control (default all)
+     @param function controller function to use
+   */
+  ESN(int nbNeurons = 30);
 
   /** initialisation of the network with the given number of input and output units
       @param inputDim length of input vector
@@ -33,34 +38,13 @@ public:
 	     with the given response strength.
       @param randGen pointer to random generator, if 0 an new one is used
    */
-  virtual void init(unsigned int pop_size, unsigned  int inputSize, 
+  virtual void init(unsigned int inputDim, unsigned  int outputDim, 
 		    double unit_map = 0.0, RandGen* randGen = 0);
 
   /** passive processing of the input
      (this function is not constant since a recurrent network 
      for example might change internal states
   */
-
-  virtual void updateLoops (const matrix::Matrix& s, const matrix::Matrix& m); 
-//  virtual void updateLoops (const sensor*, const motor*); 
-
-  virtual void updatePredictions (const matrix::Matrix& smMem, const matrix::Matrix& sensors, const matrix::Matrix& motors, int phase); 
-
-  virtual void makePredictions (const matrix::Matrix& s, const matrix::Matrix& m);
-
-  virtual const int actionSelection (const matrix::Matrix& s);
-
-  virtual const matrix::Matrix  executeAction (int chosen, const matrix::Matrix& sensors, int parentActing);
-
-  virtual void replicateMutate(int chosen_actor);  
-  virtual void replicateUnrestrictPredictor(int chosen_actor, int i, int s); 
-  virtual void determineActorFitness(int chosen_actor); 
-  virtual void getErrorsFromChosenActor(int chosen_actor); 	
-
-
- //******************OLD FUNCTIONS FROM ESN**************************
-
-
   virtual const matrix::Matrix process (const matrix::Matrix& input);
 
   /* performs learning and returns the network output before learning.
@@ -83,9 +67,6 @@ public:
 
   virtual bool restore(FILE* f);
   
-  //DN variables 
-  vector <CuriosityLoop*> pop; //This initializes a vector to store a population of loops.  	
-   
 
 protected:
 
@@ -98,12 +79,6 @@ protected:
   matrix::Matrix ESNWeights; 
   double error;
   double eps;
-  matrix::Matrix predictionErrors; 
-
-  matrix::Matrix parent_errors; 
-  matrix::Matrix offspring_errors; 
-
-  double chosen;
 
   //
 };

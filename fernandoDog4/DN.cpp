@@ -19,7 +19,31 @@
 using namespace std;
 using namespace matrix;
 
+
 #define getrandom(max1) ((rand()%(int)((max1)))) // random integer between 0 and max-1
+
+double mean (const Matrix& array)
+{
+double sum = 0 ;
+//cout << array.getM() << "\n"; 
+for (int i = 0; i < array.getM(); i++)
+sum = sum + array.val(i,0);
+return sum/array.getM();
+} // function calculating mean
+
+double sd (const Matrix& array)
+{
+double sum = 0;
+double STD_DEV = 0; // returning zero's
+
+for (int i = 0; i < array.getM(); i++)
+{
+sum = sum + array.val(i,0);
+STD_DEV = STD_DEV + pow(array.val(i,0), 2);
+}
+return sqrt ((STD_DEV/array.getM()) - (pow(sum/array.getM(),2)));
+} // function calculating standard deviation
+
 
 
   /**
@@ -47,7 +71,7 @@ using namespace matrix;
 
   void DN::init(unsigned int numNeurons, unsigned  int inputSize,   double unit_map, RandGen* randGen)
   {
-	int trial_length = 1000; 
+	int trial_length = 10000; 
 	chosen = 0; 
 	//1. Construct a population of curiosity loops.
 	for(int i = 0; i < numNeurons; i++){
@@ -65,6 +89,8 @@ using namespace matrix;
 	addInspectableValue("chosen",&chosen,"ChosenActor");
 	addInspectableMatrix("chosenActorParentError",&parent_errors,false);
 	addInspectableMatrix("chosenActorOffspringError",&offspring_errors,false);
+	
+	fitnessF.open ("fitness.txt");
 
 
 
@@ -208,6 +234,12 @@ void DN::replicateUnrestrictPredictor(int chosen_actor, int in, int sens ){
 
 }; 
 
+void DN::savePredictorWeights(int chosen_actor){ 
+
+	pop[chosen_actor]->savePredictorWeights(); 
+
+}; 
+
 void DN::getErrorsFromChosenActor(int chosen_actor){
 
 	parent_errors = pop[chosen_actor]->parent_error; 
@@ -223,10 +255,10 @@ void DN::determineActorFitness(int chosen_actor){
  
 //1.    Restricted predictor errors over time. 
 	for(int i = 0; i < parent_errors.getM(); i++){
-		cout << parent_errors.val(i,0) << " "; 
+	//	cout << parent_errors.val(i,0) << " "; 
 		myfile << parent_errors.val(i,0) << " \n";
   	}
-	cout << "\n"; 
+	//cout << "\n"; 
   	myfile.close();
 
   ofstream myfile2;
@@ -234,14 +266,51 @@ void DN::determineActorFitness(int chosen_actor){
 
 //2.    Unrestricted predictor errors over time. 
 	for(int i = 0; i < offspring_errors.getM(); i++){
-		cout << offspring_errors.val(i,0) << " "; 
+	//	cout << offspring_errors.val(i,0) << " "; 
 		myfile2 << offspring_errors.val(i,0) << "\n ";
   	}
-	cout << "\n"; 
+	//cout << "\n"; 
   	myfile2.close();
 
+//3. Take first half of the data and get mean and s.d. 
+	double meanRparent = mean(parent_errors.rows(0,parent_errors.getM()/2)); 
+	double meanRoffspring = mean(parent_errors.rows(parent_errors.getM()/2+1, parent_errors.getM()-1)); 
+	double meanUparent = mean(offspring_errors.rows(0,offspring_errors.getM()/2)); 
+	double meanUoffspring = mean(offspring_errors.rows(offspring_errors.getM()/2+1, offspring_errors.getM()-1)); 
+
+	double sdRparent = sd(parent_errors.rows(0,parent_errors.getM()/2)); 
+	double sdRoffspring = sd(parent_errors.rows(parent_errors.getM()/2+1, parent_errors.getM()-1)); 
+	double sdUparent = sd(offspring_errors.rows(0,offspring_errors.getM()/2)); 
+	double sdUoffspring = sd(offspring_errors.rows(offspring_errors.getM()/2+1, offspring_errors.getM()-1)); 
+
+	
+//4. Fitness is a function of the above values. 
+	//Reward a high LMS error ratio between restricted and unrestricted model, i.e. adding motor helps. 
+	//Reward an unrestricted model that reduces the sd of the prediction errors.   
+
+	//Typical Granger Causality type fitness function. Rewarding unrestricted models that reduce the variance of the prediction errors. 
+	pop[chosen_actor]->parentActorFitness =  meanRparent/meanUparent;//+ (sdRparent/sdUparent); 
+	//if(pop[chosen_actor]->parentActorFitness  < 0)
+	//	pop[chosen_actor]->parentActorFitness  = 0; 
+	pop[chosen_actor]->offspringActorFitness = meanRoffspring/meanUoffspring;// + (sdRoffspring/sdUoffspring);
+	//if(pop[chosen_actor]->offspringActorFitness  < 0)	
+	//	pop[chosen_actor]->offspringActorFitness  = 0; 
+ 
+	cout << "parent = " << pop[chosen_actor]->parentActorFitness << " offspring = " << pop[chosen_actor]->offspringActorFitness << "\n"; 
+	fitnessF <<  pop[chosen_actor]->parentActorFitness << " " << pop[chosen_actor]->offspringActorFitness << "\n"; 
+	fitnessF.flush(); 
+	//cout << parent_errors.rows(0,10) << " EMND OF ROWS\n"; ; 
+	//cout << parent_errors.columns(0,1) << " EMND OF COLUMNS\n"; ; 
 }; 
 
+void DN::SHCstep(int chosen_actor){ 
+
+	if(pop[chosen_actor]->parentActorFitness < pop[chosen_actor]->offspringActorFitness){
+	   pop[chosen_actor]->overwriteParentActor(); 
+	   cout << "Loop " << chosen_actor << " offspring to parent\n"; 
+	} 
+			
+};  
 
 //****************************OLD ESN FUNCTIONS*********************************
 

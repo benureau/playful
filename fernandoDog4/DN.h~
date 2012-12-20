@@ -56,6 +56,11 @@ public:
   virtual void replicateUnrestrictPredictor(int chosen_actor, int i, int s); 
   virtual void determineActorFitness(int chosen_actor); 
   virtual void getErrorsFromChosenActor(int chosen_actor); 	
+  virtual void SHCstep(int chosen_actor); 
+  virtual void savePredictorWeights(int chosen_actor); 
+
+
+
 
 
  //******************OLD FUNCTIONS FROM ESN**************************
@@ -104,6 +109,8 @@ protected:
   matrix::Matrix offspring_errors; 
 
   double chosen;
+  ofstream fitnessF;
+
 
   //
 };

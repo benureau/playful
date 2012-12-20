@@ -15,7 +15,7 @@ double fRand(double fMin, double fMax)
     return fMin + f * (fMax - fMin);
 }
 
-CuriosityLoop::CuriosityLoop(int inputSize, int motornumber, int sensornumber){
+CuriosityLoop::CuriosityLoop(int inputSize, int motornumber, int sensornumber, int trial_length){
 	cout << "Making curiosity loop  of input size " << inputSize << "\n";
 
 	   predictorWeights.set(inputSize+1,inputSize+1); // initialized 0
@@ -82,9 +82,9 @@ CuriosityLoop::CuriosityLoop(int inputSize, int motornumber, int sensornumber){
 	addInspectableMatrix("PredInLoop",&prediction,false);
 	//addInspectableMatrix("PredError",&parent_error,false);
 	//addInspectableMatrix("UPredError",&offspring_error,false);
-	parent_error.set(500,1); 
+	parent_error.set(trial_length,1); 
 	
-	offspring_error.set(500,1); 
+	offspring_error.set(trial_length,1); 
 	
 
 };
@@ -141,7 +141,7 @@ double CuriosityLoop::updatePrediction(const matrix::Matrix& smHist, const matri
 	for(int i = 0; i < prediction.getM(); i++){
 	 if(pOutput.val(i,0) == 1){ 
 	  error.val(i,0) = prediction.val(i,0) - sm.val(i,0);
-	  prediction_error = prediction_error + error.val(i,0);
+	  prediction_error = prediction_error + pow(error.val(i,0),2);
 	//  cout << error << "predictionError\n";
 	 }
 	 else{
@@ -188,7 +188,7 @@ double CuriosityLoop::updatePrediction(const matrix::Matrix& smHist, const matri
 	for(int i = 0; i < uPrediction.getM(); i++){
 	 if(uPOutput.val(i,0) == 1){ 
 	  uError.val(i,0) = uPrediction.val(i,0) - sm.val(i,0);
-	  uPrediction_error = uPrediction_error + uError.val(i,0);
+	  uPrediction_error = uPrediction_error + pow(uError.val(i,0),2);
 	//  cout << error << "predictionError\n";
 	 }
 	 else{

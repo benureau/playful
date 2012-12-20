@@ -34,6 +34,8 @@ class CuriosityLoop: public Inspectable {
 	virtual void replicateMutateActor(); 
 	virtual void replicateUnrestrictPredictor(int, int, int); 
 // 	virtual void makePrediction(const sensor* s, const motor* m);  
+	virtual void overwriteParentActor(); 
+        virtual void savePredictorWeights(); 
 
 	~CuriosityLoop();  
 		
@@ -62,6 +64,9 @@ class CuriosityLoop: public Inspectable {
 	double uPrediction_error; 
 	double prediction_error_time_average; 
         double old_prediction_error_time_average; 
+
+	double parentActorFitness; 
+	double offspringActorFitness; 
 
 	//Stores the errors over time for the restricted and unrestricted predictors in this loop. 
 	matrix::Matrix parent_error; 	//This is NOT the parent error but the RESTRICTED PREDICTOR ERRRO for both parent and offspring. (parent < 250, offspring > 250). 

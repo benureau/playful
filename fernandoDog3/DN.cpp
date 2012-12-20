@@ -45,19 +45,20 @@ using namespace matrix;
   };
 
 
-  void DN::init(unsigned int numNeurons, unsigned  int inputSize, double unit_map, RandGen* randGen)
+  void DN::init(unsigned int numNeurons, unsigned  int inputSize,   double unit_map, RandGen* randGen)
   {
+	int trial_length = 5000; 
 	chosen = 0; 
 	//1. Construct a population of curiosity loops.
 	for(int i = 0; i < numNeurons; i++){
-		pop.push_back(new CuriosityLoop(inputSize, 12, 12));
+		pop.push_back(new CuriosityLoop(inputSize, 12, 12, trial_length));
 	}
 	addInspectable(pop[0]);
 
 	//2. Initialize the array to store the prediction errors of predictors.
 	predictionErrors.set(pop.size(),1);
-	parent_errors.set(500,1); 	
-	offspring_errors.set(500,1); 
+	parent_errors.set(trial_length,1); 	
+	offspring_errors.set(trial_length,1); 
 	
 
 	addInspectableMatrix("fitness",&predictionErrors,false);
@@ -217,11 +218,28 @@ void DN::getErrorsFromChosenActor(int chosen_actor){
 
 void DN::determineActorFitness(int chosen_actor){ 
 
-//1. This requires observing the 
-
-	for(int i = 0; i < parent_errors.getM(); i++)
+  ofstream myfile;
+  myfile.open ("restrictedErrors.txt");
+ 
+//1.    Restricted predictor errors over time. 
+	for(int i = 0; i < parent_errors.getM(); i++){
 		cout << parent_errors.val(i,0) << " "; 
+		myfile << parent_errors.val(i,0) << " \n";
+  	}
 	cout << "\n"; 
+  	myfile.close();
+
+  ofstream myfile2;
+  myfile2.open ("unrestrictedErrors.txt");
+
+//2.    Unrestricted predictor errors over time. 
+	for(int i = 0; i < offspring_errors.getM(); i++){
+		cout << offspring_errors.val(i,0) << " "; 
+		myfile2 << offspring_errors.val(i,0) << "\n ";
+  	}
+	cout << "\n"; 
+  	myfile2.close();
+
 }; 
 
 

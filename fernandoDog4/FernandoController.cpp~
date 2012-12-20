@@ -32,6 +32,7 @@
 using namespace std;
 using namespace matrix;
 
+ 
 
 FernandoController::FernandoController(unsigned long int controlmask, function func)
   : AbstractController("FernandoController", "$Id$"),
@@ -65,7 +66,7 @@ FernandoController::FernandoController(unsigned long int controlmask, function f
 void FernandoController::init(int sensornumber, int motornumber, RandGen* randGen){
   number_sensors=sensornumber;
   number_motors=motornumber;
-  TRIAL_LENGTH = 1000; 
+  TRIAL_LENGTH = 5000; 
   M.set(motornumber,sensornumber);
   smMem.set(motornumber + sensornumber +1, 1); //Create a matrix that stores the previous motor action. 
   dn = new DN(1); //Construct the Darwinian Neurodynamic controller. 
@@ -91,22 +92,29 @@ void FernandoController::step(const sensor* sensors, int sensornumber,
 	  chosen_actor = dn->actionSelection(s); //e.g. choose actor of the loop that has the highest fitness to act. 
 	  phase = 0; //Start the actor mutation and assessment phase 
 	  dn->replicateUnrestrictPredictor(chosen_actor, motornumber+sensornumber, sensornumber); 
-          //At this point for the first half of this actor period the parent actor acts and the error and variance of the restricted predictor and the unrestrictde predictor are estimated. 	  
+          //At this point for the first half of this actor period the parent actor acts and the error and variance of the restricted predictor and 		    the unrestrictde predictor are estimated. 	  
 	  parentActing = 1; 
   }
   if(phase == TRIAL_LENGTH/2.0){ 
-        //Half way through, a mutant actor offspring is produced and the error and variance of the r and u predictors are again recorded for 250 ts.
+        //Half way through, a mutant actor offspring is produced and the error and variance of the r and u predictors are again recorded for 250 		  ts.
   	//Replicate and mutate the chosen_actor 
 	dn->replicateMutate(chosen_actor); 
-	dn->replicateUnrestrictPredictor(chosen_actor, motornumber+sensornumber, sensornumber); //Copies the predictor and allows it to access ALL the motor outputs. 
+	dn->replicateUnrestrictPredictor(chosen_actor, motornumber+sensornumber, sensornumber); //Copies the predictor and allows it to access ALL 													the motor outputs. 
 	parentActing = 0; 
   }
 
   if(phase == TRIAL_LENGTH-1){ 
 	//If some function of the error and variance of the u/r predictors is satisfied the offspring actor overwrites the parent actor, else the parent actor is kept. 
+
+       dn->savePredictorWeights(chosen_actor); 
+//***
+
+
+//***
+
 	dn->getErrorsFromChosenActor(chosen_actor); 	
 	dn->determineActorFitness(chosen_actor); 
-
+	dn->SHCstep(chosen_actor); 
   }
 
 //Run the actor that was selected to get the next action. 
