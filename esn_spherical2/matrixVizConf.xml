@@ -1,0 +1,6 @@
+<!DOCTYPE MatrixVizConfigFile>
+<MatrixVizConfiguration>
+ <MatrixVizWindow X="74" Y="89"/>
+ <VisualisationWindow width="300" mode="matrix" X="707" Y="26" visMode="0" height="300" source="OutputWeights" colorPaletteFile=""/>
+ <VisualisationWindow width="300" mode="vector" X="707" Y="335" visMode="0" height="300" source="x" colorPaletteFile=""/>
+</MatrixVizConfiguration>
