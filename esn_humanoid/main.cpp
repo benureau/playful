@@ -26,7 +26,8 @@
 // include noisegenerator (used for adding noise to sensorvalues)
 #include <selforg/noisegenerator.h>
 
-#include <selforg/sinecontroller.h>
+// #include <selforg/sinecontroller.h>
+#include "sinecontroller.h"
 
 // include simulation environment stuff
 //#include <simulation.h>
@@ -300,8 +301,8 @@ public:
      controller->setParam("s4delay",1);
 
      //AbstractController* cont= new GroupController(controller,3);
-     //AbstractController* cont = new SineController(1<<16);
-     AbstractController* cont = controller;
+     AbstractController* cont = new SineController();
+     //     AbstractController* cont = controller;
 
      switch(type){
      case Normal:
