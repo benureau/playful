@@ -26,7 +26,8 @@
 // include noisegenerator (used for adding noise to sensorvalues)
 #include <selforg/noisegenerator.h>
 
-#include <selforg/sinecontroller.h>
+// #include <selforg/sinecontroller.h>
+#include "sinecontroller.h"
 
 // include simulation environment stuff
 //#include <simulation.h>
@@ -37,12 +38,11 @@
 
 // used wiring
 #include <selforg/one2onewiring.h>
-#include <selforg/forceboostwiring.h>
 #include <selforg/derivativewiring.h>
 
 // used robot
-#include <ode_robots/skeleton.h>
-//#include "skeleton.h"
+//#include <ode_robots/skeleton.h>
+#include "skeleton.h" // use local version
 
 #include <ode_robots/joint.h>
 #include <ode_robots/axisorientationsensor.h>
@@ -84,8 +84,8 @@ public:
   Joint* reckLeft;
   Joint* reckRight;
   PassiveCapsule* reck;
-  Playground* playground; 
-  //  AbstractObstacle* playground; 
+  Playground* playground;
+  //  AbstractObstacle* playground;
   double hardness;
   Substance s;
 
@@ -100,10 +100,10 @@ public:
     setTitle("The Playful Machine (Der/Martius)");
     setCaption("Simulator by Martius et al");
 
-  }  
+  }
 
   // starting function (executed once at the beginning of the simulation loop)
-  void start(const OdeHandle& odeHandle, const OsgHandle& osgHandle, GlobalData& global) 
+  void start(const OdeHandle& odeHandle, const OsgHandle& osgHandle, GlobalData& global)
   {
     setCameraHomePos (Pos(3.96562, 9.00244, 2.74255),  Pos(157.862, -12.7123, 0));
 
@@ -114,7 +114,7 @@ public:
 
     bool fixedInAir = false;
     env.type=Env::Normal;
-    global.odeConfig.setParam("noise",0.01); //for more variety 
+    global.odeConfig.setParam("noise",0.01); //for more variety
     global.odeConfig.setParam("realtimefactor",1);
     global.odeConfig.setParam("simstepsize",0.01);
     global.odeConfig.setParam("controlinterval",2);
@@ -139,13 +139,13 @@ public:
       env.type       = Env::Pit;
       env.pitsize    = 1.0;//.9;
       env.thickness  = .1;
-      env.height     = 1.4; 
+      env.height     = 1.4;
       env.roughness  = 2.0;
       env.hardness   = 30;
-      env.numSeeSaws = 0;      
-      
+      env.numSeeSaws = 0;
+
       // global.addTmpObject(new TmpDisplayItem(new OSGText("plasdpaldss",16),
-      //                                        TRANSM(20,30,0), 
+      //                                        TRANSM(20,30,0),
       //                                        osgHandle.getColor("hud"))
       //                     , 60);
 
@@ -165,8 +165,8 @@ public:
 
     env.create(odeHandle, osgHandle, global);
 
-    env.numSpheres  = 0; 
-    env.numBoxes    = 0;   
+    env.numSpheres  = 0;
+    env.numBoxes    = 0;
     env.numCapsules = 0;
     env.placeObstacles(odeHandle, osgHandle, global);
 
@@ -176,7 +176,7 @@ public:
     fixator=0;
     reckLeft = reckRight = 0;
     reck = 0;
-    
+
    for (int i=0; i< humanoids; i++){ //Several humans
      bool reckturner = (type==Reck);
      if (i>0) reckturner=false;
@@ -185,12 +185,15 @@ public:
      // SkeletonConf conf = Skeleton::getDefaultConf();
      // velocity servos
      SkeletonConf conf = Skeleton::getDefaultConfVelServos();
-           
+
      OsgHandle skelOsgHandle=osgHandle.changeColorSet(i);
      double cInit = 0.8;
      double initHeight=0.8;
 
      conf.useBackJoint = true;
+     conf.backSideBend = true;
+     conf.movableHead  = true;
+     conf.backJointLimit=M_PI/4;
      conf.powerFactor = 1;
 
      switch(type){
@@ -198,7 +201,7 @@ public:
        conf.powerFactor = 1.5;
        conf.dampingFactor = .0;
        useExtendedModel = false;
-       initHeight = 0.5;       
+       initHeight = 0.5;
        break;
      case Reck:
        conf.powerFactor = 0.3;
@@ -206,7 +209,7 @@ public:
        conf.dampingFactor = .0;
        conf.handsRotating = true;
        initHeight = 0.45;
-       //       conf.armPower = 30;     
+       //       conf.armPower = 30;
        break;
      case Rescue:
        conf.powerFactor = 1.25;
@@ -215,44 +218,44 @@ public:
        break;
      case Bungee:
        conf.powerFactor = .2;
-       conf.dampingFactor = .0;       
+       conf.dampingFactor = .0;
        break;
      case Fight:
        conf.powerFactor = 1.0;
        conf.useGripper=true;
        conf.dampingFactor = .0;
-       conf.gripDuration = 10; 
+       conf.gripDuration = 10;
        conf.releaseDuration = 5;
        break;
      }
-         
+
      OdeHandle skelHandle=odeHandle;
      // skelHandle.substance.toMetal(1);
      //     skelHandle.substance.toPlastic(.5);//TEST sonst 40
      // skelHandle.substance.toRubber(5.00);//TEST sonst 40
 
 
-     Skeleton* human0 = new Skeleton(skelHandle, skelOsgHandle,conf, "Humanoid" + itos(i)); 
+     Skeleton* human0 = new Skeleton(skelHandle, skelOsgHandle,conf, "Humanoid" + itos(i));
       //to add sensors use these lines
       std::list<Sensor*> sensors;
       //additional sensor
       sensors.push_back(new AxisOrientationSensor(AxisOrientationSensor::OnlyZAxis));
-    //  AddSensors2RobotAdapter* robot = 
+    //  AddSensors2RobotAdapter* robot =
     // new AddSensors2RobotAdapter(skelHandle, osgHandle, human0, sensors);
     OdeRobot* robot=human0;
-      // speed sensor     
+      // speed sensor
    // sensors.push_back(new SpeedSensor(1,SpeedSensor::TranslationalRel));
    // AddSensors2RobotAdapter* robot =
     //  new AddSensors2RobotAdapter(odeHandle,osgHandle,human0, sensors);
 
-     OdeRobot* human = human0; 
+     OdeRobot* human = human0;
      robot->place( ROTM(M_PI_2,1,0,0)*ROTM( i%2==0 ? M_PI : 0,0,0,1)
 		  //*TRANSM(.2*i,2*i,.841/*7*/ +2*i));
                    * TRANSM(1*i, 0.10*i, initHeight));
-      
+
      if( fixedInAir){
        Primitive* trunk = human->getMainPrimitive();
-      
+
        fixator = new FixedJoint(trunk, global.environment);
        //       // fixator = new UniversalJoint(trunk, global.environment, Pos(0, 1.2516, 0.0552) , 		   Axis(0,0,1), Axis(0,1,0));
        fixator->init(odeHandle, osgHandle);
@@ -260,25 +263,24 @@ public:
        Primitive* leftHand = human->getAllPrimitives()[Skeleton::Left_Hand];
        Primitive* rightHand = human->getAllPrimitives()[Skeleton::Right_Hand];
 
-       createOrMoveReck(odeHandle, osgHandle.changeColor("wall"), global, 
+       createOrMoveReck(odeHandle, osgHandle.changeColor("wall"), global,
                         leftHand->getPosition().z());
-      
-       reckLeft = new SliderJoint(leftHand, reck->getMainPrimitive(), leftHand->getPosition(), Axis(1,0,0));	
+
+       reckLeft = new SliderJoint(leftHand, reck->getMainPrimitive(), leftHand->getPosition(), Axis(1,0,0));
        reckLeft->init(odeHandle, osgHandle,false);
-       reckRight = new SliderJoint(rightHand, reck->getMainPrimitive(), rightHand->getPosition(), Axis(1,0,0));	
-       reckRight->init(odeHandle, osgHandle,false);			  
-       
+       reckRight = new SliderJoint(rightHand, reck->getMainPrimitive(), rightHand->getPosition(), Axis(1,0,0));
+       reckRight->init(odeHandle, osgHandle,false);
+
        //       reck = new OSGCapsule(0.02,env.widthground/2);
        //       reck->init(osgHandle.changeColor("Silbergrau"), OSGPrimitive::Low);
        //       reck->setMatrix(ROTM(M_PI_2,0,1,0) * TRANSM((leftHand->getPosition() + rightHand->getPosition())*0.5));
      }
-     
+
      // create pointer to one2onewiring
-     //     One2OneWiring* wiring = new One2OneWiring(new ColorUniformNoise(0.1));
-     ForceBoostWiring* wiring = new ForceBoostWiring(new ColorUniformNoise(0.1), 0.0);
- 
-      
-     // use soml depending 
+     One2OneWiring* wiring = new One2OneWiring(new ColorUniformNoise(0.1));
+
+
+     // use soml depending
      AbstractController* controller;
      if(somlRatio>0){
        SoMLConf sc = SoML::getDefaultConf();
@@ -287,10 +289,9 @@ public:
        sc.hiddenContrUnitsRatio = somlRatio;
        sc.hiddenModelUnitsRatio = somlRatio;
        sc.useS = false;
-       controller = new SoML(sc); 
+       controller = new SoML(sc);
      }else{
-        controller = new Sox(cInit, useExtendedModel);
-       //       controller = new SineController();
+       controller = new Sox(cInit, useExtendedModel);
      }
 
      controller->setParam("Logarithmic",1);
@@ -298,35 +299,30 @@ public:
      controller->setParam("epsA",0.01);
      controller->setParam("s4avg",1);
      controller->setParam("s4delay",1);
-     
-     //AbstractController* cont= new GroupController(controller,3);
-      AbstractController* cont = new SineController(1<<4);
 
-     wiring->setParam("booster", 0);
+     //AbstractController* cont= new GroupController(controller,3);
+     AbstractController* cont = new SineController();
+     //     AbstractController* cont = controller;
+
      switch(type){
      case Normal:
        controller->setParam("epsC",0.1);
-       wiring->setParam("booster",0.075);
        break;
      case Reck:
-       wiring->setParam("booster",0.05);
        controller->setParam("damping",0.0001);
        break;
      case Rescue:
-       wiring->setParam("booster",0.02);
        break;
      case Bungee:
-       wiring->setParam("booster",0.01);
        break;
      case Fight:
-       wiring->setParam("booster",0.07);
        controller->setParam("damping",0.0003);
        controller->setParam("epsC",0.1  );
        global.odeConfig.setParam("noise",0.0);
        break;
      }
 
-     
+
      // create pointer to agent
      // initialize pointer with controller, robot and wiring
      // push agent in globel list of agents
@@ -334,7 +330,7 @@ public:
      agent->init(cont, robot, wiring);
      //agent->setTrackOptions(TrackRobot(true,true,false,true,"bodyheight",20)); // position and speed tracking every 20 steps
 
-    // agent->addOperator(new LimitOrientationOperator(Axis(0,0,1), Axis(0,0,1), 
+    // agent->addOperator(new LimitOrientationOperator(Axis(0,0,1), Axis(0,0,1),
     //                                                 M_PI*0.4, 1));
      switch(type){
      case Normal:
@@ -344,28 +340,28 @@ public:
      case Rescue:
        break;
      case Bungee:
-       agent->addOperator(new PullToPointOperator(Pos(0,0,3),30,true, 
-                                                  PullToPointOperator::Z, 
+       agent->addOperator(new PullToPointOperator(Pos(0,0,3),30,true,
+                                                  PullToPointOperator::Z,
                                                   0, 0.1, true));
        break;
      case Fight:
        //agent->addOperator(new BoxRingOperator(Pos(0,0,2), 1.5, 0.2, 200, true));
-       agent->addOperator(new BoxRingOperator(Pos(0,0,1.2), env.widthground/2.0, 
+       agent->addOperator(new BoxRingOperator(Pos(0,0,1.2), env.widthground/2.0,
                                               0.2, 200, false));
-       // agent->addOperator(new PullToPointOperator(Pos(0,0,0.5),3,false, 
-       //                                            PullToPointOperator::XYZ, 
-       //                                            1, 0.0));       
+       // agent->addOperator(new PullToPointOperator(Pos(0,0,0.5),3,false,
+       //                                            PullToPointOperator::XYZ,
+       //                                            1, 0.0));
 
        break;
      }
 
      // save robot
      if(i==0) human->storeToFile(ROBOTSTOREFILE);
-     
-     global.configs.push_back(agent);     
+
+     global.configs.push_back(agent);
      global.agents.push_back(agent);
-      
-     //  
+
+     //
    }// Several humans end
 
    // connect grippers
@@ -386,22 +382,22 @@ public:
   };
 
 
-  void createOrMoveReck(const OdeHandle& odeHandle, const OsgHandle& osgHandle, 
+  void createOrMoveReck(const OdeHandle& odeHandle, const OsgHandle& osgHandle,
                 GlobalData& global, double amount){
-    if(type==Reck) {                  
-      if(fixator) delete fixator;            
+    if(type==Reck) {
+      if(fixator) delete fixator;
       if(!reck){
-        reck = new PassiveCapsule(odeHandle, osgHandle, 
-                                  0.02,env.widthground, 1.0);              
+        reck = new PassiveCapsule(odeHandle, osgHandle,
+                                  0.02,env.widthground, 1.0);
         reck->setPose(ROTM(M_PI_2,0,1,0));
-        global.obstacles.push_back(reck);       
-                
+        global.obstacles.push_back(reck);
+
       }
       Primitive* r = reck->getMainPrimitive();
       r->setPosition(r->getPosition()+Pos(0.,0,amount));
       fixator = new FixedJoint(r, global.environment);
       fixator->init(odeHandle, osgHandle, false);
-    }    
+    }
   }
 
   virtual void bindingDescription(osg::ApplicationUsage & au) const {
@@ -412,43 +408,43 @@ public:
 
 
   // add own key handling stuff here, just insert some case values
-  virtual bool command(const OdeHandle& odeHandle, const OsgHandle& osgHandle,  
+  virtual bool command(const OdeHandle& odeHandle, const OsgHandle& osgHandle,
                        GlobalData& global, int key, bool down)
   {
     if (down) { // only when key is pressed, not when released
       switch ( (char) key )
 	{
-	case 'X': 
-	case 'x': 
+	case 'X':
+	case 'x':
 	  if(fixator) delete fixator;
-	  fixator=0;	 
+	  fixator=0;
           //          globalData.agents[0]->setParam("pelvispower",0.0);
 	  return true;
 	  break;
-	case 'b': 
+	case 'b':
           createOrMoveReck(odeHandle, osgHandle, globalData, -0.1);
 	  return true;
 	  break;
-	case 'B': 
+	case 'B':
           createOrMoveReck(odeHandle, osgHandle, globalData,  0.1);
 	  return true;
 	  break;
-	case 'l': 
+	case 'l':
           {
             globalData.agents[0]->getRobot()->restoreFromFile(ROBOTSTOREFILE);
             globalData.agents[0]->getWiring()->reset();
           }
 	  return true;
-	  break;          
-	case 'i': 
-	  if(playground) {	    
+	  break;
+	case 'i':
+	  if(playground) {
 	    s.hardness*=1.5;
 	    cout << "hardness " << s.hardness << endl;
 	    playground->setSubstance(s);
 	  }
 	  return true;
 	  break;
-	case 'j': 
+	case 'j':
 	  if(playground) {
 	    s.hardness/=1.5;
 	    cout << "hardness " << s.hardness << endl;
@@ -475,7 +471,7 @@ public:
 };
 
 int main (int argc, char **argv)
-{ 
+{
   SimType type=Normal;
   double somlRatio=0;
   if (Simulation::contains(argv, argc, "-rescue")) {
@@ -499,4 +495,4 @@ int main (int argc, char **argv)
   return sim.run(argc, argv) ? 0 : 1;
 
 }
- 
+
