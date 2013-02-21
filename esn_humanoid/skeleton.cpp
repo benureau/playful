@@ -106,43 +106,44 @@ namespace lpzrobots {
     }
 
     if(conf.onlyPrimaryFunctions){
-      addInspectableDescription("x[0]","hip left sagital");
-      addInspectableDescription("x[1]","hip right sagital");
-      addInspectableDescription("x[2]","knee left");
-      addInspectableDescription("x[3]","knee right");
+      addInspectableDescription("x[0]","hip left sagital (out/in)");
+      addInspectableDescription("x[1]","hip right sagital (out/in)");
+      addInspectableDescription("x[2]","knee left (bend/stretch)");
+      addInspectableDescription("x[3]","knee right (bend/stretch)");
 
-      addInspectableDescription("x[4]","ankle left");
-      addInspectableDescription("x[5]","ankle right");
+      addInspectableDescription("x[4]","ankle left (bend/stretch)");
+      addInspectableDescription("x[5]","ankle right (bend/stretch)");
 
-      addInspectableDescription("x[6]","shoulder left sagital");
-      addInspectableDescription("x[7","shoulder right sagital");
+      addInspectableDescription("x[6]","shoulder left sagital (down/up) ");
+      addInspectableDescription("x[7","shoulder right sagital (down/up)");
 
-      addInspectableDescription("x[8]","elbow left");
-      addInspectableDescription("x[9]","elbow right");
+      addInspectableDescription("x[8]","elbow left(bend/stretch)");
+      addInspectableDescription("x[9]","elbow right (bend/stretch)");
       if(conf.useBackJoint){
         addInspectableDescription("x[10]","back (bend)");
         addInspectableDescription("x[11]","back (torsion)");
       }
     }else{
-      addInspectableDescription("x[0]","hip left sagital");
-      addInspectableDescription("x[1]","hip left lateral");
-      addInspectableDescription("x[2]","hip right sagital");
-      addInspectableDescription("x[3]","hip right lateral");
-      addInspectableDescription("x[4]","knee left");
-      addInspectableDescription("x[5]","knee right");
+      addInspectableDescription("x[0]","hip left sagital (out/in)");
+      addInspectableDescription("x[1]","hip left lateral (out/in)");
+      addInspectableDescription("x[2]","hip right sagital(out/in) ");
+      addInspectableDescription("x[3]","hip right lateral (out/in)");
 
-      addInspectableDescription("x[6]","ankle left");
-      addInspectableDescription("x[7]","ankle right");
+      addInspectableDescription("x[4]","knee left (bend/stretch)");
+      addInspectableDescription("x[5]","knee right (bend/stretch)");
 
-      addInspectableDescription("x[8]","shoulder left lateral");
-      addInspectableDescription("x[9]","shoulder left sagital");
-      addInspectableDescription("x[10]","shoulder right lateral");
-      addInspectableDescription("x[11]","shoulder right sagital");
+      addInspectableDescription("x[6]","ankle left (bend/stretch)");
+      addInspectableDescription("x[7]","ankle right (bend/stretch)");
 
-      addInspectableDescription("x[12]","elbow left");
-      addInspectableDescription("x[13]","elbow right");
+      addInspectableDescription("x[8]","shoulder left lateral (down/up)");
+      addInspectableDescription("x[9]","shoulder left sagital (left/right)");
+      addInspectableDescription("x[10]","shoulder right lateral (down/up)");
+      addInspectableDescription("x[11]","shoulder right sagital (left/right)");
 
-      addInspectableDescription("x[14]","pelvis");
+      addInspectableDescription("x[12]","elbow left (bend/stretch)");
+      addInspectableDescription("x[13]","elbow right (bend/stretch)");
+
+      addInspectableDescription("x[14]","pelvis (bend left/right)");
       int n=15;
       if(conf.useBackJoint){
         if(conf.backSideBend){
