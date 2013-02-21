@@ -29,6 +29,9 @@
 // #include <selforg/sinecontroller.h>
 #include "sinecontroller.h"
 
+// #include <selforg/replaycontroller.h>
+#include "replaycontroller.h"
+
 // include simulation environment stuff
 //#include <simulation.h>
 #include <ode_robots/simulation.h>
@@ -122,7 +125,7 @@ public:
 
     switch(type){
     case Normal:
-      fixedInAir = false;
+      fixedInAir = true;
       global.odeConfig.setParam("controlinterval",3);
       env.numSeeSaws = 0;
       env.roughness  = 2.5;
@@ -301,7 +304,8 @@ public:
      controller->setParam("s4delay",1);
 
      //AbstractController* cont= new GroupController(controller,3);
-     AbstractController* cont = new SineController();
+     //AbstractController* cont = new SineController();
+     AbstractController* cont = new ReplayController("filename", false);
      //     AbstractController* cont = controller;
 
      switch(type){
