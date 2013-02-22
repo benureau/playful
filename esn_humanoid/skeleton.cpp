@@ -865,7 +865,7 @@ GUIDE adding new sensors
     // fj = new FixedJoint(objects[Left_Shin], objects[Left_Foot]);
     j = new HingeJoint(objects[Left_Shin], objects[Left_Foot],
 		       Pos(0.0624, 0.183, 0.0318) * pose,
- 		       Axis(1,0,0) * pose);
+ 		       Axis(-1,0,0) * pose);
     j->init(odeHandle, osgHandleJ, true,0.1);
     joints.push_back(j);
 
@@ -879,7 +879,7 @@ GUIDE adding new sensors
 
     j = new HingeJoint(objects[Right_Shin], objects[Right_Foot],
 		       Pos(-0.0624, 0.183, 0.0318) * pose,
- 		       Axis(1,0,0) * pose);
+ 		       Axis(-1,0,0) * pose);
     //  fj = new FixedJoint(objects[Right_Shin], objects[Right_Foot]);
     j->init(odeHandle, osgHandleJ, true, 0.1);
     joints.push_back(j);
