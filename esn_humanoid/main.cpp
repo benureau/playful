@@ -81,7 +81,8 @@ class ThisSim : public Simulation {
 public:
   SimType type;
   Env env;
-  double somlRatio;
+  bool useSine;
+  char* filename;
 
   Joint* fixator;
   Joint* reckLeft;
@@ -92,8 +93,8 @@ public:
   double hardness;
   Substance s;
 
-  ThisSim(SimType type, double somlRatio)
-    : type(type), somlRatio(somlRatio) {
+  ThisSim(SimType type, bool useSine, char* filename)
+    : type(type), useSine(useSine), filename(filename) {
     addPaletteFile("colors/UrbanExtraColors.gpl");
     addColorAliasFile("colors/UrbanColorSchema.txt");
     if(type==Rescue)
@@ -198,6 +199,7 @@ public:
      conf.movableHead  = true;
      conf.backJointLimit=M_PI/4;
      conf.powerFactor = 1;
+     conf.backPower=50;
 
      switch(type){
      case Normal:
@@ -283,30 +285,24 @@ public:
      One2OneWiring* wiring = new One2OneWiring(new ColorUniformNoise(0.1));
 
 
-     // use soml depending
      AbstractController* controller;
-     if(somlRatio>0){
-       SoMLConf sc = SoML::getDefaultConf();
-       sc.useHiddenModel = true;
-       sc.useHiddenContr = true;
-       sc.hiddenContrUnitsRatio = somlRatio;
-       sc.hiddenModelUnitsRatio = somlRatio;
-       sc.useS = false;
-       controller = new SoML(sc);
-     }else{
-       controller = new Sox(cInit, useExtendedModel);
+     if(useSine){
+       controller = new SineController();
+       controller->setParam("period",200);
+     } else if (filename != 0) {
+       controller = new ReplayController(filename, true);
+     } else {
+       AbstractController* sox;
+       sox = new Sox(cInit, useExtendedModel);
+
+       sox->setParam("Logarithmic",1);
+       sox->setParam("epsC",0.05);
+       sox->setParam("epsA",0.01);
+       sox->setParam("s4avg",1);
+       sox->setParam("s4delay",1);
+       controller = sox; // or
+       // controller = new GroupController(sox,3);
      }
-
-     controller->setParam("Logarithmic",1);
-     controller->setParam("epsC",0.05);
-     controller->setParam("epsA",0.01);
-     controller->setParam("s4avg",1);
-     controller->setParam("s4delay",1);
-
-     //AbstractController* cont= new GroupController(controller,3);
-     //AbstractController* cont = new SineController();
-     AbstractController* cont = new ReplayController("filename", false);
-     //     AbstractController* cont = controller;
 
      switch(type){
      case Normal:
@@ -331,7 +327,7 @@ public:
      // initialize pointer with controller, robot and wiring
      // push agent in globel list of agents
      OdeAgent* agent = new OdeAgent(global, i==0 ? plotoptions : list<PlotOption>());
-     agent->init(cont, robot, wiring);
+     agent->init(controller, robot, wiring);
      //agent->setTrackOptions(TrackRobot(true,true,false,true,"bodyheight",20)); // position and speed tracking every 20 steps
 
     // agent->addOperator(new LimitOrientationOperator(Axis(0,0,1), Axis(0,0,1),
@@ -477,7 +473,6 @@ public:
 int main (int argc, char **argv)
 {
   SimType type=Normal;
-  double somlRatio=0;
   if (Simulation::contains(argv, argc, "-rescue")) {
     type= Rescue;
   }
@@ -490,12 +485,17 @@ int main (int argc, char **argv)
   if (Simulation::contains(argv, argc, "-bungee")) {
     type= Bungee;
   }
-  int index = Simulation::contains(argv, argc, "-soml");
+  bool useSine;
+  useSine = Simulation::contains(argv, argc, "-sine");
+
+  int index = Simulation::contains(argv, argc, "-replay");
+  char* filename=0;
   if (index>0 && index<argc) {
-    somlRatio=atof(argv[index]);
+    filename=argv[index];
   }
 
-  ThisSim sim(type, somlRatio);
+
+  ThisSim sim(type, useSine, filename);
   return sim.run(argc, argv) ? 0 : 1;
 
 }

@@ -105,61 +105,46 @@ namespace lpzrobots {
       addParameter("backjointlimit",   &conf.backJointLimit       ,0,10);
     }
 
-    if(conf.onlyPrimaryFunctions){
-      addInspectableDescription("x[0]","hip left sagital (out/in)");
-      addInspectableDescription("x[1]","hip right sagital (out/in)");
-      addInspectableDescription("x[2]","knee left (bend/stretch)");
-      addInspectableDescription("x[3]","knee right (bend/stretch)");
+    int n=0;
+    addInspectableDescription("x[" + itos(n++) + "]","hip left sagital  (back-/front+)");
+    if(!conf.onlyPrimaryFunctions)
+      addInspectableDescription("x[" + itos(n++) + "]","hip left lateral  (in-/out+)");
+    addInspectableDescription("x[" + itos(n++) + "]","hip right sagital (back-/front+)");
+    if(!conf.onlyPrimaryFunctions)
+      addInspectableDescription("x[" + itos(n++) + "]","hip right lateral (in-/out+)");
 
-      addInspectableDescription("x[4]","ankle left (bend/stretch)");
-      addInspectableDescription("x[5]","ankle right (bend/stretch)");
+    addInspectableDescription("x[" + itos(n++) + "]","knee left (bend-/stretch+)");
+    addInspectableDescription("x[" + itos(n++) + "]","knee right (bend-/stretch+)");
 
-      addInspectableDescription("x[6]","shoulder left sagital (down/up) ");
-      addInspectableDescription("x[7","shoulder right sagital (down/up)");
+    addInspectableDescription("x[" + itos(n++) + "]","ankle left (bend-/stretch+)");
+    addInspectableDescription("x[" + itos(n++) + "]","ankle right (bend-/stretch+)");
 
-      addInspectableDescription("x[8]","elbow left(bend/stretch)");
-      addInspectableDescription("x[9]","elbow right (bend/stretch)");
-      if(conf.useBackJoint){
-        addInspectableDescription("x[10]","back (bend)");
-        addInspectableDescription("x[11]","back (torsion)");
+    addInspectableDescription("x[" + itos(n++) + "]","shoulder left lateral (up-/down+)");
+    if(!conf.onlyPrimaryFunctions)
+      addInspectableDescription("x[" + itos(n++) + "]","shoulder left sagital (out-/in+)");
+    addInspectableDescription("x[" + itos(n++) + "]","shoulder right lateral (up-/down+)");
+    if(!conf.onlyPrimaryFunctions)
+      addInspectableDescription("x[" + itos(n++) + "]","shoulder right sagital (out-/in+)");
+
+    addInspectableDescription("x[" + itos(n++) + "]","elbow left (bend/stretch)");
+    addInspectableDescription("x[" + itos(n++) + "]","elbow right (bend/stretch)");
+
+    if(!conf.onlyPrimaryFunctions)
+      addInspectableDescription("x[" + itos(n++) + "]","pelvis (bend left/right)");
+    if(conf.useBackJoint){
+      if(conf.backSideBend && !conf.onlyPrimaryFunctions){
+        addInspectableDescription("x[" + itos(n++) + "]","back (torsion)");
+        addInspectableDescription("x[" + itos(n++) + "]","back (bend back-/front+)");
+        addInspectableDescription("x[" + itos(n++) + "]","back (bend left-/right+)");
+      }else{
+        addInspectableDescription("x[" + itos(n++) + "]","back (bend back-/front+)");
+        addInspectableDescription("x[" + itos(n++) + "]","back (torsion)");
       }
-    }else{
-      addInspectableDescription("x[0]","hip left sagital (out/in)");
-      addInspectableDescription("x[1]","hip left lateral (out/in)");
-      addInspectableDescription("x[2]","hip right sagital(out/in) ");
-      addInspectableDescription("x[3]","hip right lateral (out/in)");
+    }
+    if(conf.movableHead && !conf.onlyPrimaryFunctions){
+      addInspectableDescription("x[" + itos(n++) + "]","head (left/right)");
+      addInspectableDescription("x[" + itos(n++) + "]","head (back/front)");
 
-      addInspectableDescription("x[4]","knee left (bend/stretch)");
-      addInspectableDescription("x[5]","knee right (bend/stretch)");
-
-      addInspectableDescription("x[6]","ankle left (bend/stretch)");
-      addInspectableDescription("x[7]","ankle right (bend/stretch)");
-
-      addInspectableDescription("x[8]","shoulder left lateral (down/up)");
-      addInspectableDescription("x[9]","shoulder left sagital (left/right)");
-      addInspectableDescription("x[10]","shoulder right lateral (down/up)");
-      addInspectableDescription("x[11]","shoulder right sagital (left/right)");
-
-      addInspectableDescription("x[12]","elbow left (bend/stretch)");
-      addInspectableDescription("x[13]","elbow right (bend/stretch)");
-
-      addInspectableDescription("x[14]","pelvis (bend left/right)");
-      int n=15;
-      if(conf.useBackJoint){
-        if(conf.backSideBend){
-          addInspectableDescription("x[" + itos(n++) + "]","back (torsion)");
-          addInspectableDescription("x[" + itos(n++) + "]","back (bend back/front)");
-          addInspectableDescription("x[" + itos(n++) + "]","back (bend left/right)");
-        }else{
-          addInspectableDescription("x[" + itos(n++) + "]","back (bend back/front)");
-          addInspectableDescription("x[" + itos(n++) + "]","back (torsion)");
-        }
-      }
-      if(conf.movableHead){
-        addInspectableDescription("x[" + itos(n++) + "]","head (left/right)");
-        addInspectableDescription("x[" + itos(n++) + "]","head (back/front)");
-
-      }
     }
   };
 
