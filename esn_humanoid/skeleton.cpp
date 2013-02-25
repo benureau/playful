@@ -126,11 +126,11 @@ namespace lpzrobots {
     if(!conf.onlyPrimaryFunctions)
       addInspectableDescription("x[" + itos(n++) + "]","shoulder right sagital (out-/in+)");
 
-    addInspectableDescription("x[" + itos(n++) + "]","elbow left (bend/stretch)");
-    addInspectableDescription("x[" + itos(n++) + "]","elbow right (bend/stretch)");
+    addInspectableDescription("x[" + itos(n++) + "]","elbow left (bend-/stretch+)");
+    addInspectableDescription("x[" + itos(n++) + "]","elbow right (bend-/stretch+)");
 
     if(!conf.onlyPrimaryFunctions)
-      addInspectableDescription("x[" + itos(n++) + "]","pelvis (bend left/right)");
+      addInspectableDescription("x[" + itos(n++) + "]","pelvis (bend left-/right+)");
     if(conf.useBackJoint){
       if(conf.backSideBend && !conf.onlyPrimaryFunctions){
         addInspectableDescription("x[" + itos(n++) + "]","back (torsion)");
@@ -142,8 +142,8 @@ namespace lpzrobots {
       }
     }
     if(conf.movableHead && !conf.onlyPrimaryFunctions){
-      addInspectableDescription("x[" + itos(n++) + "]","head (left/right)");
-      addInspectableDescription("x[" + itos(n++) + "]","head (back/front)");
+      addInspectableDescription("x[" + itos(n++) + "]","head (left-/right+)");
+      addInspectableDescription("x[" + itos(n++) + "]","head (back-/front+)");
 
     }
   };
