@@ -28,7 +28,7 @@
 #include <stdio.h>
 #include <selforg/abstractcontroller.h>
 #include <selforg/matrix.h>
-#include "ESN.h"
+#include "esn.h"
 
 /**
  * class for robot control with sine, sawtooth and impuls

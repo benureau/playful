@@ -27,7 +27,7 @@
 #include <assert.h>
 #include "groupController.h"
 #include <selforg/controller_misc.h>
-#include "ESN.h"
+#include "esn.h"
 
 using namespace std;
 using namespace matrix;
@@ -39,7 +39,7 @@ GroupController::GroupController(AbstractController* controller, int nbContextSe
 {
   addConfigurable(controller);
   addParameterDef("esnCtrl", &esnCtrl,0,0,1,"0: Normal control, 1: ESN control");
-  
+
   addParameterDef("contextCtrl", &contextCtrl,0,0,1,"0: no control, 1: context control");
   addParameterDef("Axis3", &Axis3,0,-1,1,"third sensor value");
   addParameterDef("Axis4", &Axis4,0,-1,1,"fourth sensor value");
@@ -52,7 +52,9 @@ GroupController::GroupController(AbstractController* controller, int nbContextSe
 void GroupController::init(int sensornumber, int motornumber, RandGen* randGen){
   // the controller does not get the context sensors
   controller->init(sensornumber-nbContextSensors, motornumber, randGen);
-  esn = new ESN(80);
+  ESNConf ec = ESN::getDefaultConf();
+  ec.numNeurons=100;
+  esn = new ESN(ec);
   esn->init(sensornumber, motornumber);
   addInspectable(esn);
   addConfigurable(esn);
@@ -73,7 +75,7 @@ double lr;
     Matrix m(motornumber,1,motors);
 
 	// rotation behavior
-	if( (s.val(0,0) > 0.1) and (s.val(1,0) > 0.1) and (s.val(2,0) > 0.1) and (s.val(3,0) > 0.1) and (s.val(4,0) >0.1) ) 
+	if( (s.val(0,0) > 0.1) and (s.val(1,0) > 0.1) and (s.val(2,0) > 0.1) and (s.val(3,0) > 0.1) and (s.val(4,0) >0.1) )
 
     {
      lr=1;
