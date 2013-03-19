@@ -158,18 +158,18 @@ namespace lpzrobots {
       c.dampingFactor     = 1.0;
       c.jointLimitFactor  = 1.1; // factor between servo range and physical limit
 
-      c.hipPower    = 60;
+      c.hipPower    = 90;
       c.hipDamping  = 0.2;
       c.hipVelocity = 20;
 
-      c.hip2Power   = 60;
+      c.hip2Power   = 90;
       c.hip2Damping = 0.2;
 
       c.neckPower    = 2;
       c.neckDamping  = 0.1;
       c.neckVelocity = 20;
 
-      c.kneePower    = 20;
+      c.kneePower    = 45;
       c.kneeDamping  = 0.1;
       c.kneeVelocity = 20;
 
@@ -177,15 +177,15 @@ namespace lpzrobots {
       c.ankleDamping  = 0.1;
       c.ankleVelocity = 20;
 
-      c.armPower    = 30;
+      c.armPower    = 50;
       c.armDamping  = 0.1;
       c.armVelocity = 20;
 
-      c.elbowPower    = 20;
+      c.elbowPower    = 40;
       c.elbowDamping  = 0.1;
       c.elbowVelocity = 20;
 
-      c.pelvisPower    = 40;
+      c.pelvisPower    = 90;
       c.pelvisDamping  = 0.2;
       c.pelvisVelocity = 20;
 
