@@ -73,8 +73,9 @@ double lr;
     controller->step(sensors, sensornumber-nbContextSensors, motors, motornumber);
     //ESN controller from here
     Matrix m(motornumber,1,motors);
-
-	// rotation behavior
+	lr = 1;
+	esn->learn(s, m, lr); 
+	/*// rotation behavior
 	if( (s.val(0,0) > 0.1) and (s.val(1,0) > 0.1) and (s.val(2,0) > 0.1) and (s.val(3,0) > 0.1) and (s.val(4,0) >0.1) )
 
     {
@@ -85,7 +86,7 @@ double lr;
     {
       lr= 0;
     }
-    esn->learn(s, m, lr);
+    esn->learn(s, m, lr); */
   }
 };
 
