@@ -290,7 +290,9 @@ public:
        controller = new SineController();
        controller->setParam("period",200);
      } else if (filename != 0) {
-       controller = new ReplayController(filename, true);
+	 AbstractController* sox;
+         sox = new ReplayController(filename, true);
+	 controller = new GroupController(sox,3);
      } else {
        AbstractController* sox;
        sox = new Sox(cInit, useExtendedModel);
@@ -300,8 +302,8 @@ public:
        sox->setParam("epsA",0.01);
        sox->setParam("s4avg",1);
        sox->setParam("s4delay",1);
-       controller = sox; // or
-       // controller = new GroupController(sox,3);
+       // controller = sox; // or
+        controller = new GroupController(sox,3);
      }
 
      switch(type){
