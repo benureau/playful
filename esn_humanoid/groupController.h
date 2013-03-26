@@ -71,9 +71,17 @@ public:
   /** performs one step.
       @see step
   */
-  virtual void stepNoLearning(const sensor* , int number_sensors,
-			      motor* , int number_motors);
+  virtual void stepNoLearning(const sensor* , int sensornumber,
+			      motor* , int motornumber);
 
+
+  /** called in motor babbling phase.
+      the motor values are given (by babbling controller) and
+      this controller can learn the basic relations from observed sensors/motors
+      (the babbling controller may be also a trainer)
+   */
+  virtual void motorBabblingStep(const sensor* , int sensornumber,
+                                 const motor* , int motornumber);
 
   /********* STORABLE INTERFACE ******/
   /// @see Storable

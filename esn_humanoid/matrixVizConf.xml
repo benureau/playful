@@ -1,6 +1,8 @@
 <!DOCTYPE MatrixVizConfigFile>
 <MatrixVizConfiguration>
- <MatrixVizWindow X="66" Y="53"/>
+ <MatrixVizWindow X="306" Y="627"/>
  <VisualisationWindow width="300" mode="vector" X="722" Y="161" visMode="0" height="300" source="x" colorPaletteFile=""/>
  <VisualisationWindow width="300" mode="vector" X="722" Y="377" visMode="0" height="300" source="y" colorPaletteFile=""/>
+ <VisualisationWindow width="300" mode="matrix" X="0" Y="627" visMode="0" height="300" source="C" colorPaletteFile=""/>
+ <VisualisationWindow width="300" mode="matrix" X="525" Y="685" visMode="0" height="300" source="A" colorPaletteFile=""/>
 </MatrixVizConfiguration>
