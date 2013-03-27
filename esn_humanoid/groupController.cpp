@@ -38,6 +38,7 @@ GroupController::GroupController(AbstractController* controller, int nbContextSe
     controller(controller), nbContextSensors(nbContextSensors)
 {
   addConfigurable(controller);
+  addInspectable(controller);
   addParameterDef("esnCtrl", &esnCtrl,0,0,1,"0: Normal control, 1: ESN control");
 
   addParameterDef("contextCtrl", &contextCtrl,0,0,1,"0: no control, 1: context control");
@@ -62,7 +63,7 @@ void GroupController::init(int sensornumber, int motornumber, RandGen* randGen){
 
 void GroupController::step(const sensor* sensors, int sensornumber,
 			  motor* motors, int motornumber) {
-double lr;
+  double lr;
   Matrix s(sensornumber,1,sensors);
 
 
@@ -71,31 +72,30 @@ double lr;
     m.convertToBuffer(motors, motornumber);
   }else{
     controller->step(sensors, sensornumber-nbContextSensors, motors, motornumber);
-    //ESN controller from here
+    //ESN learns here
     Matrix m(motornumber,1,motors);
-	lr = 1;
-	esn->learn(s, m, lr); 
-	/*// rotation behavior
-	if( (s.val(0,0) > 0.1) and (s.val(1,0) > 0.1) and (s.val(2,0) > 0.1) and (s.val(3,0) > 0.1) and (s.val(4,0) >0.1) )
-
-    {
-     lr=1;
-    }
-
-    else
-    {
-      lr= 0;
-    }
-    esn->learn(s, m, lr); */
+    lr = 1;
+    esn->learn(s, m, lr);
   }
 };
 
-void GroupController::stepNoLearning(const sensor* sensors, int number_sensors,
-				    motor* motors, int number_motors) {
+void GroupController::stepNoLearning(const sensor* sensors, int sensornumber,
+                                     motor* motors, int motornumber) {
 
-  controller->stepNoLearning(sensors, number_sensors-nbContextSensors,
-			     motors, number_motors);
+  controller->stepNoLearning(sensors, sensornumber-nbContextSensors,
+			     motors, motornumber);
 };
+
+void GroupController::motorBabblingStep(const sensor* sensors, int sensornumber,
+                                        const motor* motors, int motornumber){
+  controller->motorBabblingStep(sensors, sensornumber-nbContextSensors,
+                                motors, motornumber);
+  //ESN learns also from babbling (or trainer's input
+  Matrix s(sensornumber,1,sensors);
+  Matrix m(motornumber,1,motors);
+  esn->learn(s, m, 1.0);
+}
+
 
 
 

@@ -83,6 +83,7 @@ public:
   Env env;
   bool useSine;
   char* filename;
+  int teachTime;
 
   Joint* fixator;
   Joint* reckLeft;
@@ -93,8 +94,8 @@ public:
   double hardness;
   Substance s;
 
-  ThisSim(SimType type, bool useSine, char* filename)
-    : type(type), useSine(useSine), filename(filename) {
+  ThisSim(SimType type, bool useSine, char* filename, int teachTime)
+    : type(type), useSine(useSine), filename(filename), teachTime(teachTime) {
     addPaletteFile("colors/UrbanExtraColors.gpl");
     addColorAliasFile("colors/UrbanColorSchema.txt");
     if(type==Rescue)
@@ -241,17 +242,16 @@ public:
 
 
      Skeleton* human0 = new Skeleton(skelHandle, skelOsgHandle,conf, "Humanoid" + itos(i));
-      //to add sensors use these lines
-      std::list<Sensor*> sensors;
-      //additional sensor
-      sensors.push_back(new AxisOrientationSensor(AxisOrientationSensor::OnlyZAxis));
-    //  AddSensors2RobotAdapter* robot =
-    // new AddSensors2RobotAdapter(skelHandle, osgHandle, human0, sensors);
-    OdeRobot* robot=human0;
-      // speed sensor
-   // sensors.push_back(new SpeedSensor(1,SpeedSensor::TranslationalRel));
-   // AddSensors2RobotAdapter* robot =
-    //  new AddSensors2RobotAdapter(odeHandle,osgHandle,human0, sensors);
+     int numberContext=0; // adjust if you add additional sensor.
+     //to add sensors use these lines
+     // std::list<Sensor*> sensors;
+     // //additional sensor
+     //sensors.push_back(new AxisOrientationSensor(AxisOrientationSensor::OnlyZAxis));
+     // speed sensor
+     // sensors.push_back(new SpeedSensor(1,SpeedSensor::TranslationalRel));
+     //  AddSensors2RobotAdapter* robot =
+     // OdeRobot* robot = new AddSensors2RobotAdapter(skelHandle, osgHandle, human0, sensors);
+     OdeRobot* robot=human0;
 
      OdeRobot* human = human0;
      robot->place( ROTM(M_PI_2,1,0,0)*ROTM( i%2==0 ? M_PI : 0,0,0,1)
@@ -289,21 +289,24 @@ public:
      if(useSine){
        controller = new SineController();
        controller->setParam("period",200);
-     } else if (filename != 0) {
-	 AbstractController* sox;
-         sox = new ReplayController(filename, true);
-	 controller = new GroupController(sox,3);
+     } else if (filename != 0 && teachTime==0) {
+       // No teaching: if we teach then we use the replay as motorbabbler, see below
+       AbstractController* replay;
+       replay = new ReplayController(filename, true);
+       controller = new GroupController(replay,numberContext);
      } else {
        AbstractController* sox;
        sox = new Sox(cInit, useExtendedModel);
 
        sox->setParam("Logarithmic",1);
-       sox->setParam("epsC",0.05);
+       sox->setParam("epsC",0.005);
        sox->setParam("epsA",0.01);
        sox->setParam("s4avg",1);
        sox->setParam("s4delay",1);
+       sox->setParam("sense",4);
+
        // controller = sox; // or
-        controller = new GroupController(sox,3);
+        controller = new GroupController(sox,numberContext);
      }
 
      switch(type){
@@ -331,6 +334,13 @@ public:
      OdeAgent* agent = new OdeAgent(global, i==0 ? plotoptions : list<PlotOption>());
      agent->init(controller, robot, wiring);
      //agent->setTrackOptions(TrackRobot(true,true,false,true,"bodyheight",20)); // position and speed tracking every 20 steps
+
+     if (!useSine && filename != 0 && teachTime) { // use the replay as motorbabbler
+       AbstractController* replay;
+       replay = new ReplayController(filename, true);
+       agent->startMotorBabblingMode(teachTime, replay, false);
+     }
+
 
     // agent->addOperator(new LimitOrientationOperator(Axis(0,0,1), Axis(0,0,1),
     //                                                 M_PI*0.4, 1));
@@ -463,6 +473,9 @@ public:
   }
 
   virtual void usage() const {
+    printf("\t-sine\tuse Sine controller\n");
+    printf("\t-replay\treplay a file (e.g. from human data)\n");
+    printf("\t-teach TIME\tuse the replay to teach the Sox controller for TIME steps, otherwise only ESN \n");
     printf("\t-rescue\thumanoid in a pit\n");
     printf("\t-reck\thumanoid at a reck bar\n");
     printf("\t-fight\ttwo humanoid in a fighting arena\n");
@@ -475,6 +488,7 @@ public:
 int main (int argc, char **argv)
 {
   SimType type=Normal;
+  int index;
   if (Simulation::contains(argv, argc, "-rescue")) {
     type= Rescue;
   }
@@ -490,14 +504,22 @@ int main (int argc, char **argv)
   bool useSine;
   useSine = Simulation::contains(argv, argc, "-sine");
 
-  int index = Simulation::contains(argv, argc, "-replay");
+  int teachTime = 0;
+  index = Simulation::contains(argv, argc, "-teach");
+  if (index>0 && index<argc) {
+    teachTime=atoi(argv[index]);
+  }
+
+
+  index = Simulation::contains(argv, argc, "-replay");
   char* filename=0;
   if (index>0 && index<argc) {
     filename=argv[index];
   }
 
 
-  ThisSim sim(type, useSine, filename);
+
+  ThisSim sim(type, useSine, filename, teachTime);
   return sim.run(argc, argv) ? 0 : 1;
 
 }
