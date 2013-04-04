@@ -122,13 +122,12 @@ public:
     global.odeConfig.setParam("noise",0.01); //for more variety
     global.odeConfig.setParam("realtimefactor",1);
     global.odeConfig.setParam("simstepsize",0.01);
-    global.odeConfig.setParam("controlinterval",2);
-    global.odeConfig.setParam("gravity", -6);
+    global.odeConfig.setParam("controlinterval",1);
+    global.odeConfig.setParam("gravity", -9.81);
 
     switch(type){
     case Normal:
       fixedInAir = true;
-      global.odeConfig.setParam("controlinterval",3);
       env.numSeeSaws = 0;
       env.roughness  = 2.5;
       break;
@@ -138,7 +137,6 @@ public:
       env.height=2.0;
       break;
     case Rescue:
-      global.odeConfig.setParam("controlinterval",2);
       setCameraHomePos (Pos(1.97075, 4.99419, 2.03904),  Pos(159.579, -13.598, 0));
       //  env.type       = Env::OpenPit;
       env.type       = Env::Pit;
@@ -157,7 +155,6 @@ public:
       break;
     case Fight:
       env.type        = Env::Normal;
-      global.odeConfig.setParam("controlinterval",3);
       global.odeConfig.setParam("gravity", -4);
       //      global.odeConfig.setParam("noise",0.0);
       env.widthground = 5;
@@ -306,7 +303,7 @@ public:
        sox->setParam("sense",4);
 
        // controller = sox; // or
-        controller = new GroupController(sox,numberContext);
+       controller = new GroupController(sox,numberContext);
      }
 
      switch(type){
@@ -338,7 +335,7 @@ public:
      if (!useSine && filename != 0 && teachTime) { // use the replay as motorbabbler
        AbstractController* replay;
        replay = new ReplayController(filename, true);
-       agent->startMotorBabblingMode(teachTime, replay, false);
+       agent->startMotorBabblingMode(teachTime, replay);
      }
 
 
